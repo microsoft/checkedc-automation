@@ -1,4 +1,4 @@
-# Test clang on Linux using Visual Studio Team Services.
+# Test clang on UNIX using Visual Studio Team Services.
 
 set -ue
 set -o pipefail
