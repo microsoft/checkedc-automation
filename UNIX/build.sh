@@ -37,7 +37,7 @@ cmake -G Ninja \
   -DCHECKEDC_ARM_RUNUNDER="qemu-arm" \
   -DLLVM_CCACHE_BUILD=ON \
   -DLLVM_LIT_ARGS=-v \
-  "$BUILD_SOURCESDIRECTORY/checkedc-clang/llvm"
+  "$BUILD_SOURCESDIRECTORY/llvm"
 
 set +x
 
