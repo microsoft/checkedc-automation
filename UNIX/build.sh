@@ -22,6 +22,7 @@ if [[ ("$LNT" != "" || "$BUILD_PACKAGE" == "Yes") &&
   CMAKE_ADDITIONAL_OPTIONS="-DLLVM_INSTALL_TOOLCHAIN_ONLY=ON -DLLVM_ENABLE_ASSERTIONS=ON"
 fi
 
+mkdir -p "$LLVM_OBJ_DIR"
 cd "$LLVM_OBJ_DIR"
 
 echo "======================================================================"
@@ -36,7 +37,7 @@ cmake -G Ninja \
   -DCHECKEDC_ARM_RUNUNDER="qemu-arm" \
   -DLLVM_CCACHE_BUILD=ON \
   -DLLVM_LIT_ARGS=-v \
-  "$BUILD_SOURCESDIRECTORY/checkedc-clang/llvm"
+  "$BUILD_SOURCESDIRECTORY/llvm"
 
 set +x
 

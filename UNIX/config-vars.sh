@@ -93,6 +93,10 @@ elif [ "$SKIP_CHECKEDC_TESTS" != "Yes" -a "$SKIP_CHECKEDC_TESTS" != "No" ]; then
 fi
 
 # set up branch names
+if [ -z "$AUTOMATION_BRANCH" ]; then
+  export AUTOMATION_BRANCH="master"
+fi
+
 if [ -z "$CHECKEDC_BRANCH" ]; then
   export CHECKEDC_BRANCH="master"
 fi
@@ -103,19 +107,6 @@ fi
 
 if [ -z "$LLVM_TEST_SUITE_BRANCH" ]; then
   export LLVM_TEST_SUITE_BRANCH="master"
-fi
-
-# set up source versions (Git commit number)
-if [ -z "$CHECKEDC_COMMIT" ]; then
- export CHECKEDC_COMMIT="HEAD"
-fi
-
-if [ -z "$CLANG_COMMIT" ]; then
-  export CLANG_COMMIT="HEAD"
-fi
-
-if [ -z "$LLVM_TEST_SUITE_COMMIT" ]; then
-  export LLVM_TEST_SUITE_COMMIT="HEAD"
 fi
 
 if [ -z "$BUILD_CPU_COUNT" ]; then
@@ -207,12 +198,10 @@ if [ "$CHECKEDC_CONFIG_STATUS" == "passed" ]; then
   echo "  LNT_RESULTS_DIR: $LNT_RESULTS_DIR"
   echo 
   echo " Branch and commit information:"
+  echo "  AUTOMATION_BRANCH: $AUTOMATION_BRANCH"
   echo "  CLANG_BRANCH: $CLANG_BRANCH"
-  echo "  CLANG_COMMIT: $CLANG_COMMIT"
   echo "  CHECKEDC BRANCH: $CHECKEDC_BRANCH"
-  echo "  CHECKEDC_COMMIT: $CHECKEDC_COMMIT"
   echo "  LLVM_TEST_SUITE_BRANCH: $LLVM_TEST_SUITE_BRANCH"
-  echo "  LLVM_TEST_SUITE_COMMIT: $LLVM_TEST_SUITE_COMMIT"
   echo
   echo " BUILD_CPU_COUNT: $BUILD_CPU_COUNT"
   echo "======================================================================"

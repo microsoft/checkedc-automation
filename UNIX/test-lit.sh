@@ -20,23 +20,21 @@ fi
 
 cd ${LLVM_OBJ_DIR}
 
-if [ "${SKIP_CHECKEDC_TESTS}" != "Yes" ]; then
-  echo "======================================================================"
-  echo "Running ninja check-checkedc"
-  echo "======================================================================"
-  ninja check-checkedc
-fi
+echo "======================================================================"
+echo "Running ninja check-checkedc"
+echo "======================================================================"
+ninja check-checkedc
 
-if [ "${TEST_SUITE}" == "CheckedC_clang" ]; then
-  echo "======================================================================"
-  echo "Running ninja check-clang"
-  echo "======================================================================"
-  ninja check-clang
-elif [ "${TEST_SUITE}" == "CheckedC_LLVM" ]; then
+if [ "${TEST_SUITE}" == "CheckedC_LLVM" ]; then
   echo "======================================================================"
   echo "Running ninja check-all"
   echo "======================================================================"
   ninja check-all
+else
+  echo "======================================================================"
+  echo "Running ninja check-clang"
+  echo "======================================================================"
+  ninja check-clang
 fi
 
 set +ue
