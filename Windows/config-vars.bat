@@ -1,3 +1,5 @@
+@echo off
+
 rem
 rem Validate and set configuration variables.   Other scripts should only 
 rem depend on variables printed at the end of this script.
@@ -23,7 +25,7 @@ if NOT DEFINED BUILD_CHECKEDC_CLEAN (
   ) else if "%BUILD_CHECKEDC_CLEAN%"=="No" (
     rem
   ) else (
-    echo Unknown BUILD_CHECKEDC_CLEAN value %BUILD_CHECKEDC_CLEAN%: must be one of Yes or No
+    @echo Unknown BUILD_CHECKEDC_CLEAN value %BUILD_CHECKEDC_CLEAN%: must be one of Yes or No
     exit /b /1
   )
 )
@@ -31,7 +33,7 @@ if NOT DEFINED BUILD_CHECKEDC_CLEAN (
 rem Validate build configuration
 
 if NOT DEFINED BUILDCONFIGURATION (
-  echo BUILDCONFIGURATION not set: must be set to set to one of Debug, Release, ReleaseWithDebInfo
+  @echo BUILDCONFIGURATION not set: must be set to set to one of Debug, Release, ReleaseWithDebInfo
   exit /b 1
 ) else if "%BUILDCONFIGURATION%"=="Debug" (
   rem
@@ -40,7 +42,7 @@ if NOT DEFINED BUILDCONFIGURATION (
 ) else if "%BUILDCONFIGURATION%"=="ReleaseWithDebInfo" (
   rem
 ) else (
-  echo Unknown BUILDCONFIGURATION value %BUILDCONFIGURATION%: must be one of Debug, Release, ReleaseWithDebInfo
+  @echo Unknown BUILDCONFIGURATION value %BUILDCONFIGURATION%: must be one of Debug, Release, ReleaseWithDebInfo
   exit /b 1
 )
 
@@ -53,7 +55,7 @@ if NOT DEFINED BUILDOS (
 ) else if "%BUILDOS%"=="WSL" (
   rem
 ) else (
-  echo Unknown BUILDOS value %BUILDOS%: must be Windows or WSL
+  @echo Unknown BUILDOS value %BUILDOS%: must be Windows or WSL
   exit /b 1;
 )
 
@@ -66,7 +68,7 @@ if NOT DEFINED TEST_TARGET_ARCH (
 ) else if "%TEST_TARGET_ARCH%"=="AMD64"  (
   rem
 ) else (
-  echo Unknown TEST_TARGET_ARCH value %TEST_TARGET_ARCH: must be X86 or AMD64
+  @echo Unknown TEST_TARGET_ARCH value %TEST_TARGET_ARCH: must be X86 or AMD64
   exit /b 1;
 )
 
@@ -78,7 +80,7 @@ if NOT DEFINED BUILD_PACKAGE (
   ) else if "%BUILD_PACKAGE%"=="No" (
     rem
   ) else (
-    echo Unknown BUILD_PACKAGE value %BUILD_PACKAGE%: must be one of Yes or No
+    @echo Unknown BUILD_PACKAGE value %BUILD_PACKAGE%: must be one of Yes or No
     exit /b /1
   )
 )
@@ -87,27 +89,27 @@ if NOT DEFINED SIGN_INSTALLER (
     set SIGN_INSTALLER=No
 ) else if "%SIGN_INSTALLER%"=="Test" (
     if "%BUILD_PACKAGE"=="No" (
-      echo "BUILD_PACKAGE must be Yes when SIGN_INSTALLER is Test"
+      @echo "BUILD_PACKAGE must be Yes when SIGN_INSTALLER is Test"
       exit /b /1
     )
 ) else if "%SIGN_INSTALLER%"=="Release" (
     if "%BUILD_PACKAGE"=="No" (
-      echo "BUILD_PACKAGE must be Yes when SIGN_INSTALLER is Release"
+      @echo "BUILD_PACKAGE must be Yes when SIGN_INSTALLER is Release"
       exit /b /1
     )
 ) else (
-    echo Unknown SIGN_INSTALLER value %SIGN_INSTALLER%: must be one of Test or Release
+    @echo Unknown SIGN_INSTALLER value %SIGN_INSTALLER%: must be one of Test or Release
     exit /b /1
   )
 )
 
 if not defined BUILD_BINARIESDIRECTORY (
-  echo BUILD_BINARIESDIRECTORY not set.  Set it the directory that will contain the object directory.
+  @echo BUILD_BINARIESDIRECTORY not set.  Set it the directory that will contain the object directory.
   exit /b 1
 )
 
 if not defined BUILD_SOURCESDIRECTORY (
-   echo BUILD_SOURCESDIRECTORY not set.  Set it the directory that will contain the sources directory
+   @echo BUILD_SOURCESDIRECTORY not set.  Set it the directory that will contain the sources directory
    exit /b 1
 )
 
@@ -116,7 +118,7 @@ set LLVM_OBJ_DIR=%BUILD_BINARIESDIRECTORY%\LLVM-%BUILDCONFIGURATION%-%TEST_TARGE
 rem Validate Test Suite configuration
 
 if NOT DEFINED TEST_SUITE (
-  echo TEST_SUITE not set: must be set to one of CheckedC, CheckedC_clang, or CheckedC_LLVM
+  @echo TEST_SUITE not set: must be set to one of CheckedC, CheckedC_clang, or CheckedC_LLVM
   exit /b 1
 ) else if "%TEST_SUITE%"=="CheckedC" (
   rem
@@ -125,7 +127,7 @@ if NOT DEFINED TEST_SUITE (
 ) else if "%TEST_SUITE%"=="CheckedC_LLVM" (
   rem
 ) else (
-  echo Unknown TEST_SUITE value %TEST_SUITE%: must be one of CheckedC, CheckedC_clang, or CheckedC_LLVM
+  @echo Unknown TEST_SUITE value %TEST_SUITE%: must be one of CheckedC, CheckedC_clang, or CheckedC_LLVM
   exit /b 1
 )
 
@@ -133,18 +135,13 @@ rem SKIP_CHECKEDC_TESTS controls whether to skip the Checked C repo tests
 rem entirely. This is useful for building/testing a stock (unmodified)
 rem version of clang/LLVM that does not support Checked C.
 
-if NOT DEFINED SKIP_CHECKEDC_TESTS (
-  set SKIP_CHECKEDC_TESTS=No
-) else if "%SKIP_CHECKEDC_TESTS%"=="Yes" (
-  rem
-) else if "%SKIP_CHECKEDC_TESTS%"=="No" (
-  rem
-) else (
-  echo Unknown SKIP_CHECKEDC_TESTS value: must be one of Yes or No
-  exit /b 1
+rem set up branch names
+if not defined AUTOMATION_BRANCH (
+  set AUTOMATION_BRANCH=master
+) else if "%AUTOMATION_BRANCH%"=="" (
+  set AUTOMATION_BRANCH=master
 )
 
-rem set up branch names
 if not defined CHECKEDC_BRANCH (
   set CHECKEDC_BRANCH=master
 ) else if "%CHECKEDC_BRANCH%"=="" (
@@ -167,15 +164,6 @@ if not defined SIGN_BRANCH (
   set SIGN_BRANCH=master
 )
 
-rem set up source versions (Git commit number)
-if not defined CHECKEDC_COMMIT (
-  set CHECKEDC_COMMIT=HEAD
-)
-
-if not defined CLANG_COMMIT (
-  set CLANG_COMMIT=HEAD
-)
-
 if NOT DEFINED MSBUILD_BIN (
  @rem used to be: set "MSBUILD_BIN=%programfiles(x86)%\MSBuild\15.0\Bin\MSBuild.exe"
  set "MSBUILD_BIN=%programfiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe"
@@ -194,31 +182,29 @@ if NOT DEFINED CL_CPU_COUNT (
   set CL_CPU_COUNT=4
 )
 
-echo Configured environment variables:
-echo.
-echo.  BUILDCONFIGURATION: %BUILDCONFIGURATION%
-echo.  BUILDOS: %BUILDOS%
-echo.  TEST_TARGET_ARCH: %TEST_TARGET_ARCH%
-echo.  TEST_SUITE: %TEST_SUITE%
-echo.  SKIP_CHECKEDC_TESTS: %SKIP_CHECKEDC_TESTS%
-echo.  BUILD_CHECKEDC_CLEAN: %BUILD_CHECKEDC_CLEAN%
-echo.  BUILD_PACKAGE: %BUILD_PACKAGE%
-echo.  SIGN_INSTALLER: %SIGN_INSTALLER%
-echo.
-echo.  Directories:
-echo.    BUILD_SOURCESDIRECTORY: %BUILD_SOURCESDIRECTORY%
-echo.    BUILD_BINARIESDIRECTORY: %BUILD_BINARIESDIRECTORY%
-echo.    LLVM_OBJ_DIR: %LLVM_OBJ_DIR%
-echo.
-echo.  Branch and commit information:
-echo.    CLANG_BRANCH: %CLANG_BRANCH%
-echo.    CLANG_COMMIT: %CLANG_COMMIT%
-echo.    CHECKEDC BRANCH: %CHECKEDC_BRANCH%
-echo.    CHECKEDC_COMMIT: %CHECKEDC_COMMIT%
-echo.    SIGN_BRANCH: %SIGN_BRANCH%
-echo.
-echo.  MSBUILD_BIN: %MSBUILD_BIN%
-echo.  MSBUILD_CPU_COUNT: %MSBUILD_CPU_COUNT%
-echo.  CL_CPU_COUNT: %CL_CPU_COUNT%
+@echo Configured environment variables:
+@echo.
+@echo.  BUILDCONFIGURATION: %BUILDCONFIGURATION%
+@echo.  BUILDOS: %BUILDOS%
+@echo.  TEST_TARGET_ARCH: %TEST_TARGET_ARCH%
+@echo.  TEST_SUITE: %TEST_SUITE%
+@echo.  BUILD_CHECKEDC_CLEAN: %BUILD_CHECKEDC_CLEAN%
+@echo.  BUILD_PACKAGE: %BUILD_PACKAGE%
+@echo.  SIGN_INSTALLER: %SIGN_INSTALLER%
+@echo.
+@echo.  Directories:
+@echo.    BUILD_SOURCESDIRECTORY: %BUILD_SOURCESDIRECTORY%
+@echo.    BUILD_BINARIESDIRECTORY: %BUILD_BINARIESDIRECTORY%
+@echo.    LLVM_OBJ_DIR: %LLVM_OBJ_DIR%
+@echo.
+@echo.  Branch and commit information:
+@echo.    AUTOMATION_BRANCH: %AUTOMATION_BRANCH%
+@echo.    CLANG_BRANCH: %CLANG_BRANCH%
+@echo.    CHECKEDC BRANCH: %CHECKEDC_BRANCH%
+@echo.    SIGN_BRANCH: %SIGN_BRANCH%
+@echo.
+@echo.  MSBUILD_BIN: %MSBUILD_BIN%
+@echo.  MSBUILD_CPU_COUNT: %MSBUILD_CPU_COUNT%
+@echo.  CL_CPU_COUNT: %CL_CPU_COUNT%
 
 exit /b 0
