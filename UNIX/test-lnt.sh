@@ -22,6 +22,15 @@ if [ ! -e "`which clang`" ]; then
   exit 1
 fi
 
+if [ -n "$LNT" -a "$RUN_LOCAL" = "no" ]; then
+  rm -fr "$LNT_RESULTS_DIR"
+  mkdir -p "$LNT_RESULTS_DIR"
+  if [ ! -e "$LNT_SCRIPT" ]; then
+    echo "LNT script is missing from $LNT_SCRIPT"
+    exit 1
+  fi
+fi
+
 for TEST_TARGET in $TEST_TARGET_ARCH; do
   export RESULTS_DIR=$LNT_RESULTS_DIR/$TEST_TARGET
   mkdir -p $RESULTS_DIR

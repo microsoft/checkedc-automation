@@ -22,6 +22,7 @@ if [[ ("$LNT" != "" || "$BUILD_PACKAGE" == "Yes") &&
   CMAKE_ADDITIONAL_OPTIONS="-DLLVM_INSTALL_TOOLCHAIN_ONLY=ON -DLLVM_ENABLE_ASSERTIONS=ON"
 fi
 
+mkdir -p "$LLVM_OBJ_DIR"
 cd "$LLVM_OBJ_DIR"
 
 echo "======================================================================"
