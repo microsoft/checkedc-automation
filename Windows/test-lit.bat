@@ -6,6 +6,8 @@ echo.======================================================================
 echo.Running unit tests using lit for the Checked C compiler
 echo.======================================================================
 
+@echo off
+
 set OLD_DIR=%CD%
 cd %LLVM_OBJ_DIR%
 

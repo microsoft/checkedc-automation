@@ -6,6 +6,8 @@ echo.======================================================================
 echo.Configuring and building the Checked C compiler"
 echo.======================================================================
 
+@echo off
+
 if "%TEST_TARGET_ARCH%"=="AMD64" (
   set CMAKE_GENERATOR=-G "Visual Studio 15 2017 Win64"
 ) else (

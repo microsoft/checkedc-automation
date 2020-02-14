@@ -6,6 +6,8 @@ echo.======================================================================
 echo.Checking out checkedc and test-suite sources"
 echo.======================================================================
 
+@echo off
+
 set OLD_DIR=%CD%
 
 if not exist %BUILD_SOURCESDIRECTORY%\llvm\projects\checkedc-wrapper\checkedc\.git (
