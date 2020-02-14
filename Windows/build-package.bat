@@ -5,6 +5,11 @@ rem solution file, which does not work for CMake-generated files,
 rem which should be generated outside the source tree   So create a
 rem a script and just invoke MSBuild directly.
 
+@setlocal
+@set DIRNAME=%CD%
+@call %DIRNAME%\config-vars.bat
+if ERRORLEVEL 1 (goto cmdfailed)
+
 set OLD_DIR=%CD%
 cd %LLVM_OBJ_DIR%
 
@@ -30,5 +35,3 @@ rem number.
   echo.Build installation package failed.
   cd %OLD_DIR%
   exit /b 1
-
-
