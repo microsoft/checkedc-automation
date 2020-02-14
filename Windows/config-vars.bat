@@ -133,17 +133,6 @@ rem SKIP_CHECKEDC_TESTS controls whether to skip the Checked C repo tests
 rem entirely. This is useful for building/testing a stock (unmodified)
 rem version of clang/LLVM that does not support Checked C.
 
-if NOT DEFINED SKIP_CHECKEDC_TESTS (
-  set SKIP_CHECKEDC_TESTS=No
-) else if "%SKIP_CHECKEDC_TESTS%"=="Yes" (
-  rem
-) else if "%SKIP_CHECKEDC_TESTS%"=="No" (
-  rem
-) else (
-  echo Unknown SKIP_CHECKEDC_TESTS value: must be one of Yes or No
-  exit /b 1
-)
-
 rem set up branch names
 if not defined CHECKEDC_BRANCH (
   set CHECKEDC_BRANCH=master
@@ -165,15 +154,6 @@ if not defined SIGN_BRANCH (
   set SIGN_BRANCH=master
 ) else if "%SIGN_BRANCH%"=="" (
   set SIGN_BRANCH=master
-)
-
-rem set up source versions (Git commit number)
-if not defined CHECKEDC_COMMIT (
-  set CHECKEDC_COMMIT=HEAD
-)
-
-if not defined CLANG_COMMIT (
-  set CLANG_COMMIT=HEAD
 )
 
 if NOT DEFINED MSBUILD_BIN (
@@ -200,7 +180,6 @@ echo.  BUILDCONFIGURATION: %BUILDCONFIGURATION%
 echo.  BUILDOS: %BUILDOS%
 echo.  TEST_TARGET_ARCH: %TEST_TARGET_ARCH%
 echo.  TEST_SUITE: %TEST_SUITE%
-echo.  SKIP_CHECKEDC_TESTS: %SKIP_CHECKEDC_TESTS%
 echo.  BUILD_CHECKEDC_CLEAN: %BUILD_CHECKEDC_CLEAN%
 echo.  BUILD_PACKAGE: %BUILD_PACKAGE%
 echo.  SIGN_INSTALLER: %SIGN_INSTALLER%
@@ -212,9 +191,7 @@ echo.    LLVM_OBJ_DIR: %LLVM_OBJ_DIR%
 echo.
 echo.  Branch and commit information:
 echo.    CLANG_BRANCH: %CLANG_BRANCH%
-echo.    CLANG_COMMIT: %CLANG_COMMIT%
 echo.    CHECKEDC BRANCH: %CHECKEDC_BRANCH%
-echo.    CHECKEDC_COMMIT: %CHECKEDC_COMMIT%
 echo.    SIGN_BRANCH: %SIGN_BRANCH%
 echo.
 echo.  MSBUILD_BIN: %MSBUILD_BIN%
