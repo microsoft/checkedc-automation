@@ -22,7 +22,7 @@ if [ ! -e "`which clang`" ]; then
   exit 1
 fi
 
-if [ -n "$LNT" -a "$RUN_LOCAL" = "no" ]; then
+if [ -n "$LNT" ]; then
   rm -fr "$LNT_RESULTS_DIR"
   mkdir -p "$LNT_RESULTS_DIR"
   if [ ! -e "$LNT_SCRIPT" ]; then
