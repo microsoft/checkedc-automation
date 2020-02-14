@@ -6,8 +6,7 @@ rem which should be generated outside the source tree   So create a
 rem a script and just invoke MSBuild directly.
 
 @setlocal
-@set DIRNAME=%CD%
-@call %DIRNAME%\config-vars.bat
+@call checkedc-automation\Windows\config-vars.bat
 if ERRORLEVEL 1 (goto cmdfailed)
 
 set OLD_DIR=%CD%

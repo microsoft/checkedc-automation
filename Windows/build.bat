@@ -1,8 +1,5 @@
-rem Create directories and sync files
-
 @setlocal
-@set DIRNAME=%CD%
-@call %DIRNAME%\config-vars.bat
+@call checkedc-automation\Windows\config-vars.bat
 if ERRORLEVEL 1 (goto cmdfailed)
 
 echo.======================================================================
