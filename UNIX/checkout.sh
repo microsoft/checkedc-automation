@@ -6,7 +6,7 @@
 source ./config-vars.sh
 
 echo "======================================================================"
-echo "Checking out checkedc-clang sources"
+echo "Checking out checkedc and test-suite sources"
 echo "======================================================================"
 
 set -ue
@@ -48,7 +48,7 @@ cd "$BUILD_SOURCESDIRECTORY"
 CURDIR=$PWD
 
 # Check out Checked C Tests
-clone_or_update $CURDIR checkedc-clang/llvm/projects/checkedc-wrapper/checkedc https://github.com/Microsoft/checkedc "$CHECKEDC_BRANCH"
+clone_or_update $CURDIR llvm/projects/checkedc-wrapper/checkedc https://github.com/Microsoft/checkedc "$CHECKEDC_BRANCH"
 
 # Check out LLVM test suite
 if [ -n "$LNT" ]; then
