@@ -6,7 +6,7 @@ echo.======================================================================
 echo.Checking out checkedc and test-suite sources"
 echo.======================================================================
 
-@echo off
+echo off
 
 set OLD_DIR=%CD%
 
