@@ -28,7 +28,15 @@ cd "$LLVM_OBJ_DIR"
 echo "======================================================================"
 echo "Running the configure step"
 echo "======================================================================"
-set -x
+
+echo cmake -G Ninja \
+  ${CMAKE_ADDITIONAL_OPTIONS} \
+  -DLLVM_ENABLE_PROJECTS=clang \
+  -DCMAKE_BUILD_TYPE="$BUILDCONFIGURATION" \
+  -DCHECKEDC_ARM_RUNUNDER="qemu-arm" \
+  -DLLVM_CCACHE_BUILD=ON \
+  -DLLVM_LIT_ARGS=-v \
+  "$BUILD_SOURCESDIRECTORY/llvm"
 
 cmake -G Ninja \
   ${CMAKE_ADDITIONAL_OPTIONS} \
@@ -38,8 +46,6 @@ cmake -G Ninja \
   -DLLVM_CCACHE_BUILD=ON \
   -DLLVM_LIT_ARGS=-v \
   "$BUILD_SOURCESDIRECTORY/llvm"
-
-set +x
 
 if [[ $? -ne 0 ]]; then
   echo "Configure failed. Exiting."

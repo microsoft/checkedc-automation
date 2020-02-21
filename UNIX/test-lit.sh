@@ -21,20 +21,20 @@ fi
 cd ${LLVM_OBJ_DIR}
 
 echo "======================================================================"
-echo "Running ninja check-checkedc"
+echo "Running ninja -v check-checkedc"
 echo "======================================================================"
-ninja check-checkedc
+ninja -v check-checkedc
 
 if [ "${TEST_SUITE}" == "CheckedC_LLVM" ]; then
   echo "======================================================================"
-  echo "Running ninja check-all"
+  echo "Running ninja -v check-all"
   echo "======================================================================"
-  ninja check-all
+  ninja -v check-all
 else
   echo "======================================================================"
-  echo "Running ninja check-clang"
+  echo "Running ninja -v check-clang"
   echo "======================================================================"
-  ninja check-clang
+  ninja -v check-clang
 fi
 
 set +ue
