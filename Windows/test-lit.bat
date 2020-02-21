@@ -20,8 +20,8 @@ cd %LLVM_OBJ_DIR%
 @echo.Running the Checked C regression tests
 @echo.======================================================================
 
-@echo ninja -v check-checkedc
-ninja -v check-checkedc
+rem @echo ninja -v check-checkedc
+rem ninja -v check-checkedc
 if ERRORLEVEL 1 (goto cmdfailed)
 
 if "%TEST_SUITE%"=="CheckedC_LLVM" (
