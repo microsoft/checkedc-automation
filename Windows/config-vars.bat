@@ -62,13 +62,13 @@ if NOT DEFINED BUILDOS (
 rem Validate or set target architecture for testing.
 
 if NOT DEFINED TEST_TARGET_ARCH (
-  set TEST_TARGET_ARCH=X86
-) else if "%TEST_TARGET_ARCH%"=="X86"  (
+  set TEST_TARGET_ARCH=x64
+) else if "%TEST_TARGET_ARCH%"=="x86"  (
   rem
-) else if "%TEST_TARGET_ARCH%"=="AMD64"  (
+) else if "%TEST_TARGET_ARCH%"=="x64"  (
   rem
 ) else (
-  @echo Unknown TEST_TARGET_ARCH value %TEST_TARGET_ARCH: must be X86 or AMD64
+  @echo Unknown TEST_TARGET_ARCH value %TEST_TARGET_ARCH: must be x86 or x64
   exit /b 1;
 )
 
