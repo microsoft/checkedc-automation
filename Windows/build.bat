@@ -43,8 +43,8 @@ if ERRORLEVEL 1 (goto cmdfailed)
 @echo.Running the build step
 @echo.======================================================================
 
-@echo ninja clang
-ninja clang
+@echo ninja
+ninja
 if ERRORLEVEL 1 (goto cmdfailed)
 
 :succeeded
