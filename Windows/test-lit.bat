@@ -14,14 +14,15 @@ set PATH="C:\GnuWin32\bin";%PATH%
 set OLD_DIR=%CD%
 cd %LLVM_OBJ_DIR%
 
-@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+@echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
+@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
 
 @echo.======================================================================
 @echo.Running the Checked C regression tests
 @echo.======================================================================
 
-rem @echo ninja -v check-checkedc
-rem ninja -v check-checkedc
+@echo ninja -v check-checkedc
+ninja -v check-checkedc
 if ERRORLEVEL 1 (goto cmdfailed)
 
 if "%TEST_SUITE%"=="CheckedC_LLVM" (
