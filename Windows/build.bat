@@ -25,7 +25,8 @@ cd %LLVM_OBJ_DIR%
 @echo.Running the configure step
 @echo.======================================================================
 
-@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+@echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
+@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
 
 set EXTRA_FLAGS=
 if "%BUILD_PACKAGE%"=="Yes" (
