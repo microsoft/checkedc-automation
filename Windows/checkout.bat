@@ -5,7 +5,7 @@
 if ERRORLEVEL 1 (goto cmdfailed)
 
 @echo.======================================================================
-@echo.Checking out checkedc and test-suite sources
+@echo.Checking out checkedc
 @echo.======================================================================
 
 set OLD_DIR=%CD%
