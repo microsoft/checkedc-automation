@@ -21,24 +21,24 @@ cd %LLVM_OBJ_DIR%
 @echo.Running the Checked C regression tests
 @echo.======================================================================
 
-@echo ninja -v check-checkedc
-ninja -v check-checkedc
+@echo ninja -v -j%CL_CPU_COUNT% check-checkedc
+ninja -v -j%CL_CPU_COUNT% check-checkedc
 if ERRORLEVEL 1 (goto cmdfailed)
 
 if "%TEST_SUITE%"=="CheckedC_LLVM" (
   @echo.======================================================================
   @echo.Running the LLVM/Clang regression tests
   @echo.======================================================================
-  @echo ninja -v check-all
-  ninja -v check-all
+  @echo ninja -v -j%CL_CPU_COUNT% check-all
+  ninja -v -j%CL_CPU_COUNT% check-all
   if ERRORLEVEL 1 (goto cmdfailed)
 
 ) else (
   @echo.======================================================================
   @echo.Running the Clang regression tests
   @echo.======================================================================
-  @echo ninja -v check-clang
-  ninja -v check-clang
+  @echo ninja -v -j%CL_CPU_COUNT% check-clang
+  ninja -v -j%CL_CPU_COUNT% check-clang
   if ERRORLEVEL 1 (goto cmdfailed)
 )
 

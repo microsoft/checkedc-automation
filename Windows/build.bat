@@ -48,11 +48,11 @@ if ERRORLEVEL 1 (goto cmdfailed)
 @echo.======================================================================
 
 if "%TEST_SUITE%"=="CheckedC_LLVM" (
-  @echo ninja
-  ninja
+  @echo ninja -j%CL_CPU_COUNT%
+  ninja -j%CL_CPU_COUNT%
 ) else (
-  @echo ninja clang
-  ninja clang
+  @echo ninja -j%CL_CPU_COUNT% clang
+  ninja -j%CL_CPU_COUNT% clang
 )
 
 if ERRORLEVEL 1 (goto cmdfailed)

@@ -165,7 +165,6 @@ if not defined SIGN_BRANCH (
 )
 
 if NOT DEFINED MSBUILD_BIN (
- @rem used to be: set "MSBUILD_BIN=%programfiles(x86)%\MSBuild\15.0\Bin\MSBuild.exe"
  set "MSBUILD_BIN=%programfiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe"
 )
 
@@ -178,8 +177,11 @@ if NOT DEFINED MSBUILD_CPU_COUNT (
 )
 
 if NOT DEFINED CL_CPU_COUNT (
-  rem It would be better to calculate this based on total physical memory availablity.
-  set CL_CPU_COUNT=4
+  if "%BUILDCONFIGURATION%"=="Debug" (
+    set /A CL_CPU_COUNT=%MSBUILD_CPU_COUNT%*3/8
+  ) else (
+    set /A CL_CPU_COUNT=%MSBUILD_CPU_COUNT%
+  )
 )
 
 @echo Configured environment variables:
