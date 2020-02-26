@@ -20,15 +20,15 @@ fi
 
 cd $LLVM_OBJ_DIR
 
-echo ninja -v check-checkedc
-ninja -v check-checkedc
+echo ninja -v -j${BUILD_CPU_COUNT} check-checkedc
+ninja -v -j${BUILD_CPU_COUNT} check-checkedc
 
 if [ "$TEST_SUITE" == "CheckedC_LLVM" ]; then
-  echo ninja -v check-all
-  ninja -v check-all
+  echo ninja -v -j${BUILD_CPU_COUNT} check-all
+  ninja -v -j${BUILD_CPU_COUNT} check-all
 else
-  echo ninja -v check-clang
-  ninja -v check-clang
+  echo ninja -v -j${BUILD_CPU_COUNT} check-clang
+  ninja -v -j${BUILD_CPU_COUNT} check-clang
 fi
 
 set +ue

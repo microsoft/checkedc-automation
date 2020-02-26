@@ -56,11 +56,11 @@ echo "======================================================================"
 echo "Running the build step"
 echo "======================================================================"
 if [[ "$TEST_SUITE" == "CheckedC_LLVM" ]]; then
-  echo ninja
-  ninja
+  echo -j${BUILD_CPU_COUNT} ninja
+  ninja -j${BUILD_CPU_COUNT}
 else
-  echo ninja clang
-  ninja clang
+  echo ninja -j${BUILD_CPU_COUNT} clang
+  ninja -j${BUILD_CPU_COUNT} clang
 fi
 
 set +x

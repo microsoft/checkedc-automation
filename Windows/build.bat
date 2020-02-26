@@ -53,7 +53,10 @@ if ERRORLEVEL 1 (goto cmdfailed)
 @echo.Running the build step
 @echo.======================================================================
 
-if "%TEST_SUITE%"=="CheckedC_LLVM" (
+if "%BUILD_PACKAGE%"=="Yes" (
+  @echo ninja -j%CL_CPU_COUNT%
+  ninja -j%CL_CPU_COUNT%
+) else if "%TEST_SUITE%"=="CheckedC_LLVM" (
   @echo ninja -j%CL_CPU_COUNT%
   ninja -j%CL_CPU_COUNT%
 ) else (
