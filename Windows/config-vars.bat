@@ -11,8 +11,6 @@ rem running it manually, the variables must be set by the user.
 
 rem Create configuration variables
 
-set MSBUILD_VERBOSITY=n
-
 if NOT DEFINED BUILD_CHECKEDC_CLEAN (
   if DEFINED BUILD_CLEAN (
     set BUILD_CHECKEDC_CLEAN=Yes
@@ -164,10 +162,6 @@ if not defined SIGN_BRANCH (
   set SIGN_BRANCH=master
 )
 
-if NOT DEFINED MSBUILD_BIN (
- set "MSBUILD_BIN=%programfiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe"
-)
-
 if NOT DEFINED MSBUILD_CPU_COUNT (
   if DEFINED NUMBER_OF_PROCESSORS (
     set MSBUILD_CPU_COUNT=%NUMBER_OF_PROCESSORS%
@@ -205,7 +199,6 @@ if NOT DEFINED CL_CPU_COUNT (
 @echo.    CHECKEDC BRANCH: %CHECKEDC_BRANCH%
 @echo.    SIGN_BRANCH: %SIGN_BRANCH%
 @echo.
-@echo.  MSBUILD_BIN: %MSBUILD_BIN%
 @echo.  MSBUILD_CPU_COUNT: %MSBUILD_CPU_COUNT%
 @echo.  CL_CPU_COUNT: %CL_CPU_COUNT%
 
