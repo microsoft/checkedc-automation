@@ -28,14 +28,20 @@ cd %LLVM_OBJ_DIR%
 @echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
 @call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
 
-set EXTRA_FLAGS=
-if "%BUILDCONFIGURATION%"=="Release" (
-  set EXTRA_FLAGS="-DLLVM_USE_CRT_RELEASE=MT"
-  if "%BUILD_PACKAGE%"=="Yes" (
-    set EXTRA_FLAGS="%EXTRA_FLAGS% -DLLVM_ENABLE_ASSERTIONS=ON -DLLVM_INSTALL_TOOLCHAIN_ONLY=ON"
+if "%BUILD_PACKAGE%"=="Yes" (
+  if "%BUILDCONFIGURATION%"=="Release" (
+    set EXTRA_FLAGS=-DLLVM_ENABLE_ASSERTIONS=ON -DLLVM_INSTALL_TOOLCHAIN_ONLY=ON
+  ) else (
+    set EXTRA_FLAGS=
   )
 ) else (
-  set EXTRA_FLAGS="-DLLVM_USE_CRT_DEBUG=MTd"
+  set EXTRA_FLAGS=
+)
+
+if "%BUILDCONFIGURATION%"=="Release" (
+  set EXTRA_FLAGS=%EXTRA_FLAGS% -DLLVM_USE_CRT_RELEASE=MT
+) else (
+  set EXTRA_FLAGS=%EXTRA_FLAGS% -DLLVM_USE_CRT_DEBUG=MTd
 )
 
 @echo cmake -G Ninja -DLLVM_ENABLE_PROJECTS=clang -DLLVM_TARGETS_TO_BUILD=all -DCMAKE_BUILD_TYPE=%BUILDCONFIGURATION% %EXTRA_FLAGS% %BUILD_SOURCESDIRECTORY%\llvm
@@ -47,7 +53,10 @@ if ERRORLEVEL 1 (goto cmdfailed)
 @echo.Running the build step
 @echo.======================================================================
 
-if "%TEST_SUITE%"=="CheckedC_LLVM" (
+if "%BUILD_PACKAGE%"=="Yes" (
+  @echo ninja -j%CL_CPU_COUNT%
+  ninja -j%CL_CPU_COUNT%
+) else if "%TEST_SUITE%"=="CheckedC_LLVM" (
   @echo ninja -j%CL_CPU_COUNT%
   ninja -j%CL_CPU_COUNT%
 ) else (

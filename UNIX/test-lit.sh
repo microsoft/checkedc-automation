@@ -18,23 +18,17 @@ if [ ! -e "`which clang`" ]; then
   exit 1
 fi
 
-cd ${LLVM_OBJ_DIR}
+cd $LLVM_OBJ_DIR
 
-echo "======================================================================"
-echo "Running ninja -v check-checkedc"
-echo "======================================================================"
-ninja -v check-checkedc
+echo ninja -v -j${BUILD_CPU_COUNT} check-checkedc
+ninja -v -j${BUILD_CPU_COUNT} check-checkedc
 
-if [ "${TEST_SUITE}" == "CheckedC_LLVM" ]; then
-  echo "======================================================================"
-  echo "Running ninja -v check-all"
-  echo "======================================================================"
-  ninja -v check-all
+if [ "$TEST_SUITE" == "CheckedC_LLVM" ]; then
+  echo ninja -v -j${BUILD_CPU_COUNT} check-all
+  ninja -v -j${BUILD_CPU_COUNT} check-all
 else
-  echo "======================================================================"
-  echo "Running ninja -v check-clang"
-  echo "======================================================================"
-  ninja -v check-clang
+  echo ninja -v -j${BUILD_CPU_COUNT} check-clang
+  ninja -v -j${BUILD_CPU_COUNT} check-clang
 fi
 
 set +ue
