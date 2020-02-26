@@ -17,7 +17,7 @@ if "%BUILD_PACKAGE%" == "No" (goto succeeded)
 @echo.======================================================================
 
 @echo ninja -v -j%CL_CPU_COUNT% package
-ninja -v -%CL_CPU_COUNT% package
+ninja -v -j%CL_CPU_COUNT% package
 if ERRORLEVEL 1 (goto cmdfailed)
 
 rem Put the installer executable in its own subdirectory.

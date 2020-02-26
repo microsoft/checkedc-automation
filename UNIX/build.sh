@@ -55,7 +55,13 @@ fi
 echo "======================================================================"
 echo "Running the build step"
 echo "======================================================================"
-ninja
+if [[ "$TEST_SUITE" == "CheckedC_LLVM" ]]; then
+  echo ninja
+  ninja
+else
+  echo ninja clang
+  ninja clang
+fi
 
 set +x
 set +ue
