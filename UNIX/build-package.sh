@@ -37,8 +37,8 @@ echo "======================================================================"
 mkdir -p "package"
 rm -rf "package/*"
 
-# Build it
-ninja package
+echo ninja -v -j${BUILD_CPU_COUNT} package
+ninja -v -j${BUILD_CPU_COUNT} package
 if [ "$?" -ne "0" ]; then
   cmdfailed
 fi
