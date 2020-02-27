@@ -55,7 +55,10 @@ fi
 echo "======================================================================"
 echo "Running the build step"
 echo "======================================================================"
-if [[ "$TEST_SUITE" == "CheckedC_LLVM" ]]; then
+if [[ "$BUILD_PACKAGE" == "Yes" ]]; then
+  echo -j${BUILD_CPU_COUNT} ninja
+  ninja -j${BUILD_CPU_COUNT}
+elif [[ "$TEST_SUITE" == "CheckedC_LLVM" ]]; then
   echo -j${BUILD_CPU_COUNT} ninja
   ninja -j${BUILD_CPU_COUNT}
 else
