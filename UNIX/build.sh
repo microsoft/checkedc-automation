@@ -62,8 +62,8 @@ elif [[ "$TEST_SUITE" == "CheckedC_LLVM" ]]; then
   echo ninja -j${BUILD_CPU_COUNT}
   ninja -j${BUILD_CPU_COUNT}
 else
-  echo ninja -j${BUILD_CPU_COUNT} clang
-  ninja -j${BUILD_CPU_COUNT} clang
+  echo ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip
+  ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip
 fi
 
 set +x

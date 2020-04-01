@@ -18,12 +18,13 @@ if [[ "$BMARK" = "yes" ]]; then
     --cc "$CC" \
     --cxx "$CXX" \
     --cflags "$CFLAGS" \
-    --qemu-user-mode "$RUN" \
+    --run-under "$RUN" \
     --test-suite "$BUILD_SOURCESDIRECTORY/llvm-test-suite" \
     --submit "$LNT_DB_DIR" \
     --only-test "$ONLY_TEST" \
     --exec-multisample "$SAMPLES" \
     --run-order "$USER" \
+    --cmake-define "CMAKE_STRIP:FILEPATH=llvm-strip" \
     ${EXTRA_LNT_ARGS} \
     2>&1 | tee $RESULT_SUMMARY
 
