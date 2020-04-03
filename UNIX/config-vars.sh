@@ -154,7 +154,7 @@ else
   export ONLY_TEST
 
   if [[ -z "$SAMPLES" ]]; then
-    SAMPLES=3
+    SAMPLES=1
   fi
   export SAMPLES
 fi
