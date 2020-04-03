@@ -127,7 +127,7 @@ if [[ -z "$BENCHMARK" ]]; then
   export BMARK=no
 
 else
-  LNT_DB_DIR=/usr/local/checkedc/lnt-setup/llvm.lnt.db
+  LNT_DB_DIR=/lnt-install/llvm.lnt.db
   if [ ! -d ${LNT_DB_DIR} ]; then
     echo "No LNT DB found at $LNT_DB_DIR"
     exit 1
@@ -154,7 +154,7 @@ else
   export ONLY_TEST
 
   if [[ -z "$SAMPLES" ]]; then
-    SAMPLES=3
+    SAMPLES=1
   fi
   export SAMPLES
 fi
@@ -168,7 +168,12 @@ if [ -z "$LNT" ]; then
   export LNT_RESULTS_DIR=""
   export LNT_SCRIPT=""
 else
-  export LNT_RESULTS_DIR="${BUILD_BINARIESDIRECTORY}/LNT-Results-${BUILDCONFIGURATION}-${BUILDOS}"
+  LNT_RESULTS_DIR="${BUILD_BINARIESDIRECTORY}/LNT-Results-${BUILDCONFIGURATION}-${BUILDOS}"
+  if [[ "$BENCHMARK" = "yes" ]]; then
+    LNT_RESULTS_DIR+="-Benchmarking"
+  fi
+  export LNT_RESULTS_DIR
+
   if [ "$RUN_LOCAL" = "no" ]; then
     # We assume that lnt is installed in /lnt-install on test machines.
     export LNT_SCRIPT=/lnt-install/sandbox/bin/lnt
