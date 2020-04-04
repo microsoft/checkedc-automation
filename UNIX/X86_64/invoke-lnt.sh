@@ -1,5 +1,3 @@
-# Test clang on UNIX using Visual Studio Team Services.
-
 set -ue
 set -o pipefail
 set -x
@@ -7,15 +5,18 @@ set -x
 CC=clang
 CXX=${CC}++
 CFLAGS="-fcheckedc-extension"
+TESTSUITE="$BUILD_SOURCESDIRECTORY/llvm-test-suite"
 
 if [[ "$BMARK" = "yes" ]]; then
+  CFLAGS+=" -I $TESTSUITE/include"
+
   "$LNT_SCRIPT" runtest test-suite \
     -v \
     --sandbox "$RESULTS_DIR" \
     --cc "$CC" \
     --cxx "$CXX" \
     --cflags "$CFLAGS" \
-    --test-suite "$BUILD_SOURCESDIRECTORY/llvm-test-suite" \
+    --test-suite "$TESTSUITE" \
     --submit "$LNT_DB_DIR" \
     --only-test "$ONLY_TEST" \
     --exec-multisample "$SAMPLES" \
@@ -30,7 +31,7 @@ else
     --cc "$CC" \
     --cxx "$CXX" \
     --cflags "$CFLAGS" \
-    --test-suite "$BUILD_SOURCESDIRECTORY/llvm-test-suite" \
+    --test-suite "$TESTSUITE" \
     --output "$RESULT_DATA" \
     -j${BUILD_CPU_COUNT} \
     2>&1 | tee $RESULT_SUMMARY
