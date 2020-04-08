@@ -1,5 +1,3 @@
-# Test clang on UNIX using Visual Studio Team Services.
-
 set -ue
 set -o pipefail
 set -x
@@ -10,8 +8,12 @@ CC=$CURDIR/clang-arm-x
 CXX=${CC}++
 CFLAGS="-fcheckedc-extension -static"
 RUN=qemu-arm
+CMAKE_DEFINES="CMAKE_STRIP:FILEPATH=llvm-strip"
+TESTSUITE="$BUILD_SOURCESDIRECTORY/llvm-test-suite"
 
 if [[ "$BMARK" = "yes" ]]; then
+  CFLAGS+=" -I $TESTSUITE/include"
+
   "$LNT_SCRIPT" runtest test-suite \
     -v \
     --sandbox "$RESULTS_DIR" \
@@ -19,12 +21,12 @@ if [[ "$BMARK" = "yes" ]]; then
     --cxx "$CXX" \
     --cflags "$CFLAGS" \
     --run-under "$RUN" \
-    --test-suite "$BUILD_SOURCESDIRECTORY/llvm-test-suite" \
+    --test-suite "$TESTSUITE" \
     --submit "$LNT_DB_DIR" \
     --only-test "$ONLY_TEST" \
     --exec-multisample "$SAMPLES" \
     --run-order "$USER" \
-    --cmake-define "CMAKE_STRIP:FILEPATH=llvm-strip" \
+    --cmake-define "$CMAKE_DEFINES" \
     ${EXTRA_LNT_ARGS} \
     2>&1 | tee $RESULT_SUMMARY
 
@@ -36,7 +38,7 @@ else
     --cxx "$CXX" \
     --cflags "$CFLAGS" \
     --qemu-user-mode "$RUN" \
-    --test-suite $BUILD_SOURCESDIRECTORY/llvm-test-suite \
+    --test-suite "$TESTSUITE" \
     --output "$RESULT_DATA" \
     -j${BUILD_CPU_COUNT} \
     2>&1 | tee $RESULT_SUMMARY
