@@ -8,7 +8,6 @@ CC=$CURDIR/clang-arm-x
 CXX=${CC}++
 CFLAGS="-fcheckedc-extension -static"
 RUN=qemu-arm
-CMAKE_DEFINES="CMAKE_STRIP:FILEPATH=llvm-strip"
 TESTSUITE="$BUILD_SOURCESDIRECTORY/llvm-test-suite"
 
 if [[ "$BMARK" = "yes" ]]; then
@@ -26,7 +25,8 @@ if [[ "$BMARK" = "yes" ]]; then
     --only-test "$ONLY_TEST" \
     --exec-multisample "$SAMPLES" \
     --run-order "$USER" \
-    --cmake-define "$CMAKE_DEFINES" \
+    --cmake-define "CMAKE_STRIP:FILEPATH=llvm-strip" \
+    --cmake-define "CMAKE_CXX_FLAGS:STRING=-static" \
     ${EXTRA_LNT_ARGS} \
     2>&1 | tee $RESULT_SUMMARY
 
