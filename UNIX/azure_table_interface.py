@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import os
+
 from azure.cosmosdb.table import (
   TableBatch,
   TableService
@@ -7,11 +9,11 @@ from azure.cosmosdb.table import (
 
 
 class AzureTableConnection:
-  def __init__(self, tableName, credentials):
+  def __init__(self, tableName):
     self.tableName = tableName
     self.tableService = TableService(
-      account_name=credentials['account_name'],
-      account_key=credentials['account_key']
+      account_name=os.environ['STORAGE_ACCOUNT_NAME'],
+      account_key=os.environ['STORAGE_ACCOUNT_KEY']
     )
 
   def insertEntity(self, entity):
@@ -25,14 +27,8 @@ class AzureTableConnection:
 
 
 def getTableConnection(accountName, accountKey):
-  assert accountName, "account name needed to store to DB"
-  assert accountKey, "account key needed to store to DB"
-
   tableName = 'bmark'
-  credentials = {}
-  credentials['account_name'] = accountName
-  credentials['account_key'] = accountKey
-  return AzureTableConnection(tableName, credentials)
+  return AzureTableConnection(tableName)
 
 def get(accountName, accountKey, entity):
   azureTable = getTableConnection(accountName, accountKey)

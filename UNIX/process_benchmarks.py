@@ -156,8 +156,4 @@ if outputType == 'json':
   print json.dumps(testData)
 
 if storeToDB:
-  accountName = args.account_name
-  accountKey = args.account_key
-  assert accountName, "account name needed to store to DB"
-  assert accountKey, "account key needed to store to DB"
-  azure_table.put(accountName, accountKey, runData, testData)
+  azure_table.put(runData, testData)
