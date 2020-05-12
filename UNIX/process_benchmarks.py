@@ -19,12 +19,6 @@ parser.add_argument('--store-to-db',
                     default=False,
                     action='store_true',
                     help='store the benchmark testData to an azure table storage')
-parser.add_argument('--account-name',
-                    type=str,
-                    help='account name for the azure table instance')
-parser.add_argument('--account-key',
-                    type=str,
-                    help='account key for the azure table instance')
 parser.add_argument('--output-type',
                     type=str,
                     choices=['text', 'json'],
