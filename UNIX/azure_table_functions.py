@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import os
-
+import subprocess
 from azure.cosmosdb.table import (
   TableBatch,
   TableService
@@ -12,8 +12,8 @@ class AzureTableConnection:
   def __init__(self, tableName):
     self.tableName = tableName
     self.tableService = TableService(
-      account_name=os.environ['STORAGE_ACCOUNT_NAME'],
-      account_key=os.environ['STORAGE_ACCOUNT_KEY']
+      account_name=subprocess.check_output(['echo', '$(Storage.Account.Name)']),
+      account_key=subprocess.check_output(['echo', "'$(Storage.Account.Key)'"])
     )
 
   def insertEntity(self, entity):
@@ -29,8 +29,10 @@ class AzureTableConnection:
 tableName = 'bmark'
 azureTable = AzureTableConnection(tableName)
 
+
 def get(accountName, accountKey, entity):
   return azureTable.getEntity(entity['PartitionKey'], entity['RowKey'])
+
 
 def put(accountName, accountKey, runData, testData):
   batch = TableBatch()

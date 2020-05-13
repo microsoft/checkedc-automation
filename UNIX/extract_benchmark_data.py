@@ -64,14 +64,14 @@ class LogFile:
     with open(self.logFile) as lines:
       for line in lines:
         line = line.strip()
-    
+
         if line.startswith('***'):
           line = line.replace('*', '') \
                      .replace('::', ':') \
                      .replace("TEST 'test-suite", 'TEST') \
                      .replace("' RESULTS", '') \
                      .replace('.test', '')
-    
+
           (res, testType, name) = self.getEntryTypeVal(line)
           if not res:
             continue
@@ -81,57 +81,57 @@ class LogFile:
             testData[testName]['exec_times'] = {}
             testData[testName]['section_sizes'] = {}
           microTestName = name
-    
+
           if outputType == 'text':
             self.printData(testType, testName)
-    
+
         elif line.startswith('compile_time:'):
           (res, compileTime) = self.getEntryVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['compile_time'] = compileTime
-    
+
           if outputType == 'text':
             self.printData('compile_time', compileTime)
-    
+
         elif line.startswith('link_time:'):
           (res, linkTime) = self.getEntryVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['link_time'] = linkTime
-    
+
           if outputType == 'text':
             self.printData('link_time', linkTime)
-    
+
         elif line.startswith('exec_time:'):
           (res, execTime) = self.getEntryVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['exec_times'][microTestName] = execTime
-    
+
           if outputType == 'text':
             self.printData('exec_times', execTime)
-    
+
         elif line.startswith('size:'):
           (res, totalSize) = self.getEntryVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['total_size'] = totalSize
-    
+
           if outputType == 'text':
             self.printData('total_size', totalSize)
-    
+
         elif line.startswith('size.'):
           (res, sectionName, size) = self.getEntryTypeVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['section_sizes'][sectionName] = size
-    
+
           if outputType == 'text':
             self.printData(sectionName, size)
 
