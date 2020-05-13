@@ -151,4 +151,5 @@ if outputType == 'json':
 
 if storeToDB:
   # azureTable is defined in azure_table_functions.py
+  assert azureTable, "Connection to Azure Tables not found"
   azureTable.put(runData, testData)
