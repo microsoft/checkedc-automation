@@ -10,11 +10,12 @@ from azure.cosmosdb.table import (
 
 class AzureTableConnection:
   def __init__(self, tableName):
+    name=subprocess.check_output(['echo', '$(Storage.Account.Name)']),
+    key=subprocess.check_output(['echo', "'$(Storage.Account.Key)'"])
+    print name, key
+
     self.tableName = tableName
-    self.tableService = TableService(
-      account_name=subprocess.check_output(['echo', '$(Storage.Account.Name)']),
-      account_key=subprocess.check_output(['echo', "'$(Storage.Account.Key)'"])
-    )
+    self.tableService = TableService(account_name=name, account_key=key)
 
   def insertEntity(self, entity):
     self.tableService.insert_entity(self.tableName, entity)
