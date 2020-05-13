@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import argparse
-import azure_table_functions
+import azure_table
 import getpass
 import json
 import os
@@ -150,6 +150,4 @@ if outputType == 'json':
   print json.dumps(testData)
 
 if storeToDB:
-  # azureTable is defined in azure_table_functions.py
-  assert azureTable, "Connection to Azure Tables not found"
-  azureTable.put(runData, testData)
+  azure_table.put(runData, testData)

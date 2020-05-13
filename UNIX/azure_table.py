@@ -10,9 +10,8 @@ from azure.cosmosdb.table import (
 
 class AzureTableConnection:
   def __init__(self, tableName):
-    accountName=subprocess.check_output(['echo', '$(Storage.Account.Name)']),
-    accountKey=subprocess.check_output(['echo', "'$(Storage.Account.Key)'"])
-    print accountName, accountKey
+    accountName = subprocess.check_output(['echo', "$(Storage.Account.Name)"]),
+    accountKey = subprocess.check_output(['echo', "'$(Storage.Account.Key)'"])
 
     self.tableName = tableName
     self.tableService = TableService(
@@ -33,6 +32,7 @@ class AzureTableConnection:
 def getTableConnection():
   tableName = 'bmark'
   return AzureTableConnection(tableName)
+
 
 def get(entity):
   azureTable = getTableConnection()
