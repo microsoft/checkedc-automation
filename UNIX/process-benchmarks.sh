@@ -5,7 +5,7 @@ source ./config-vars.sh
 
 for TEST_TARGET in $TEST_TARGET_ARCH; do
   echo "======================================================================"
-  echo "Processing benchmarks for target $TEST_TARGET"
+  echo "Processing benchmark results for target $TEST_TARGET"
   echo "======================================================================"
 
   LOGFILE=$LNT_RESULTS_DIR/$TEST_TARGET/result.log

@@ -31,7 +31,9 @@ class AzureTableConnection:
 
 def getTableConnection():
   tableName = 'bmark'
-  return AzureTableConnection(tableName)
+  azureTable = AzureTableConnection(tableName)
+  assert azureTable, "Connection to Azure Table failed"
+  return azureTable
 
 
 def get(entity):
