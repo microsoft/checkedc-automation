@@ -26,17 +26,13 @@ class AzureTableConnection:
     return self.tableService.get_entity(self.tableName, PartitionKey, RowKey)
 
 
-def getTableConnection(accountName, accountKey):
-  tableName = 'bmark'
-  return AzureTableConnection(tableName)
+tableName = 'bmark'
+azureTable = AzureTableConnection(tableName)
 
 def get(accountName, accountKey, entity):
-  azureTable = getTableConnection(accountName, accountKey)
   return azureTable.getEntity(entity['PartitionKey'], entity['RowKey'])
 
 def put(accountName, accountKey, runData, testData):
-  azureTable = getTableConnection(accountName, accountKey)
-
   batch = TableBatch()
   entity = {}
   for key, value in runData.items():

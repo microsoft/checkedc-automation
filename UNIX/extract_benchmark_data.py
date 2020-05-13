@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import argparse
-import azure_table_interface
+import azure_table_functions
 import getpass
 import json
 import os
@@ -150,4 +150,5 @@ if outputType == 'json':
   print json.dumps(testData)
 
 if storeToDB:
-  azure_table.put(runData, testData)
+  # azureTable is defined in azure_table_functions.py
+  azureTable.put(runData, testData)
