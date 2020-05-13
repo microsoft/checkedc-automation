@@ -14,7 +14,7 @@ for TEST_TARGET in $TEST_TARGET_ARCH; do
     exit 1
   fi
 
-  echo "NAME: $(STORAGE_ACCOUNT_NAME)"
-  echo "KEY: $(STORAGE_ACCOUNT_KEY)"
+  STORAGE_ACCOUNT_NAME2=$STORAGE_ACCOUNT_NAME
+  echo "NAME: $STORAGE_ACCOUNT_NAME2"
   python extract_benchmark_data.py --logfile $LOGFILE --output-type text --store-to-db
 done
