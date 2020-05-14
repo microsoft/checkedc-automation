@@ -59,6 +59,7 @@ def put(runData, testData):
       entity[key] = value
 
   batch.insert_entity(entity)
+  azureTable.commitBatch(batch)
   return
 
 
