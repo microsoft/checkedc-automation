@@ -13,6 +13,10 @@ class AzureTableConnection:
     accountName = subprocess.check_output(['echo', "$(Storage.Account.Name)"]),
     accountKey = subprocess.check_output(['echo', "'$(Storage.Account.Key)'"])
 
+    print accountName
+    print accountKey
+    return
+
     self.tableName = tableName
     self.tableService = TableService(
       account_name=accountName,
@@ -59,9 +63,6 @@ def put(runData, testData):
       entity[key] = value
 
   batch.insert_entity(entity)
-  azureTable.commitBatch(batch)
-  return
-
 
   rowNo = 1
   for testName, testResults in testData.items():
