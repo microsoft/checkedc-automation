@@ -44,7 +44,7 @@ def put(runData, testData):
       entity['RowKey'] = '{0}_{1}'.format(timestamp, 0)
 
     else:
-      entity[key] = value
+      entity[key] = str(value)
 
   batch.insert_entity(entity)
 
