@@ -4,7 +4,7 @@ BENCHMARK=yes
 source ./config-vars.sh
 
 for TEST_TARGET in $TEST_TARGET_ARCH; do
-  echo "\n"
+  echo -e "\n"
   echo "======================================================================"
   echo "Processing benchmark results for target $TEST_TARGET"
   echo "======================================================================"
