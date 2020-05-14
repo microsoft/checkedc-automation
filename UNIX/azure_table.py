@@ -72,7 +72,7 @@ def put(runData, testData):
 
     if rowNo % 100 == 0:
       azureTable.commitBatch(batch)
-      batch.clear()
+      batch = TableBatch()
 
     batch.insert_entity(entity)
     rowNo += 1
