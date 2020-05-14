@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 CURDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 cd $CURDIR
@@ -17,6 +17,5 @@ for TEST_TARGET in $TEST_TARGET_ARCH; do
     exit 1
   fi
 
-  echo $STORAGEACCOUNTNAME
   python extract_benchmark_data.py --logfile $LOGFILE --output-type text --store-to-db
 done

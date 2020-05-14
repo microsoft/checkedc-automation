@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import os
-import subprocess
 from azure.cosmosdb.table import (
   TableBatch,
   TableService
@@ -10,13 +9,10 @@ from azure.cosmosdb.table import (
 
 class AzureTableConnection:
   def __init__(self, tableName):
-#    accountName = subprocess.check_output(["echo", "$(Storage.Account.Name)"])
-#    accountKey = subprocess.check_output(["echo", "$(Storage.Account.Key)"])
-
     accountName = os.environ['STORAGEACCOUNTNAME']
     accountKey = os.environ['STORAGEACCOUNTKEY']
 
-    print "from python: " + accountName
+    print "from python, name: " + accountName
 
     self.tableName = tableName
     self.tableService = TableService(
