@@ -5,39 +5,40 @@ import azure_table
 import getpass
 import json
 import os
+import re
 import time
 
 parser = argparse.ArgumentParser(
-           description='Extract benchmark testData from log file and store to DB'
+           description='Extract benchmark data from a log file and store to database'
          )
 parser.add_argument('--logfile',
                     type=str,
                     required=True,
-                    help='path to log file containing benchmark testData')
+                    help='path to log file containing benchmark data')
+parser.add_argument('--pretty-print',
+                    default=False,
+                    action='store_true',
+                    help='print the benchmark config and test data to stdout')
 parser.add_argument('--store-to-db',
                     default=False,
                     action='store_true',
-                    help='store the benchmark testData to an azure table storage')
-parser.add_argument('--output-type',
-                    type=str,
-                    choices=['text', 'json'],
-                    help='output type to print the benchmark testData')
+                    help='store the benchmark data to an azure table storage')
 args = parser.parse_args()
 
 
 class LogFile:
-  def __init__(self, logFile, outputType):
+  def __init__(self, logFile):
     self.logFile = logFile
-    self.outputType = outputType
 
   def splitEntry(self, entry):
     return entry.split(':')
 
   def getVal(self, arr, i):
     return arr[i].strip() \
-                 .replace('"', '')
+                 .replace('"', '') \
+                 .replace("'", '')
 
-  def getEntryTypeVal(self, entry):
+  def getEntryNameVal(self, entry):
     arr = self.splitEntry(entry)
     if len(arr) < 2:
       return (False, None, None)
@@ -49,18 +50,27 @@ class LogFile:
       return (False, None)
     return (True, self.getVal(arr, 1))
 
-  def printData(self, name, val):
-    print '{0}:{1}'.format(name, val)
+  def prettyPrint(self, data):
+    print json.dumps(data, sort_keys=True, indent=4)
 
-  def getRunData(self):
+  def getRunData(self, configData):
     runData = {}
+
     runData['user'] = getpass.getuser()
     runData['timestamp'] = time.time()
-    runData['target'] = os.environ['TEST_TARGET']
+
+    runData['config'] = {}
+    for option, value in configData.items():
+      runData['config'][option] = value
+    runData['config']['TEST_TARGET'] = os.getenv('TEST_TARGET')
+
     return runData
 
-  def getTestData(self):
+  def getTestConfigData(self):
     testData = {}
+    configData = {}
+    beginConfig = False
+
     with open(self.logFile) as lines:
       for line in lines:
         line = line.strip()
@@ -72,7 +82,7 @@ class LogFile:
                      .replace("' RESULTS", '') \
                      .replace('.test', '')
 
-          (res, testType, name) = self.getEntryTypeVal(line)
+          (res, testType, name) = self.getEntryNameVal(line)
           if not res:
             continue
           if testType == 'TEST':
@@ -82,18 +92,12 @@ class LogFile:
             testData[testName]['section_sizes'] = {}
           microTestName = name
 
-          if outputType == 'text':
-            self.printData(testType, testName)
-
         elif line.startswith('compile_time:'):
           (res, compileTime) = self.getEntryVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['compile_time'] = compileTime
-
-          if outputType == 'text':
-            self.printData('compile_time', compileTime)
 
         elif line.startswith('link_time:'):
           (res, linkTime) = self.getEntryVal(line)
@@ -102,18 +106,12 @@ class LogFile:
           if testName in testData:
             testData[testName]['link_time'] = linkTime
 
-          if outputType == 'text':
-            self.printData('link_time', linkTime)
-
         elif line.startswith('exec_time:'):
           (res, execTime) = self.getEntryVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['exec_times'][microTestName] = execTime
-
-          if outputType == 'text':
-            self.printData('exec_times', execTime)
 
         elif line.startswith('size:'):
           (res, totalSize) = self.getEntryVal(line)
@@ -122,32 +120,41 @@ class LogFile:
           if testName in testData:
             testData[testName]['total_size'] = totalSize
 
-          if outputType == 'text':
-            self.printData('total_size', totalSize)
-
         elif line.startswith('size.'):
-          (res, sectionName, size) = self.getEntryTypeVal(line)
+          (res, sectionName, size) = self.getEntryNameVal(line)
           if not res:
             continue
           if testName in testData:
             testData[testName]['section_sizes'][sectionName] = size
 
-          if outputType == 'text':
-            self.printData(sectionName, size)
+        elif 'INFO: Configuring with' in line:
+          beginConfig = True
 
-    return testData
+        elif 'INFO: }' in line:
+          beginConfig = False
+
+        if beginConfig:
+          line = re.sub('^.*INFO:', '', line)
+          line = line.replace('FILEPATH:', '')
+          (res, option, value) = self.getEntryNameVal(line)
+          if not res:
+            continue
+          configData[option] = value
+
+    return (testData, configData)
 
 
 logFilePath = args.logfile
-outputType = args.output_type
+shouldPrint = args.pretty_print
 storeToDB = args.store_to_db
 
-logFile = LogFile(logFilePath, outputType)
-runData = logFile.getRunData()
-testData = logFile.getTestData()
+logFile = LogFile(logFilePath)
+(testData, configData) = logFile.getTestConfigData()
+runData = logFile.getRunData(configData)
 
-if outputType == 'json':
-  print json.dumps(testData)
+if shouldPrint:
+  logFile.prettyPrint(runData)
+  logFile.prettyPrint(testData)
 
 if storeToDB:
   azure_table.put(runData, testData)

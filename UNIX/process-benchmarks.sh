@@ -16,7 +16,7 @@ for TEST_TARGET in $TEST_TARGET_ARCH; do
   fi
   export TEST_TARGET
 
-  # Extract benchmark results from the LNT log file and post to the Azure Table
-  # Storage.
-  python extract_benchmark_data.py --logfile $LOGFILE --output-type text --store-to-db
+  # Extract benchmark results from the LNT log file, pretty print the results
+  # to stdout and post them the Azure Table Storage.
+  python extract_benchmark_data.py --logfile $LOGFILE --pretty-print --store-to-db
 done
