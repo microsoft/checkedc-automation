@@ -14,9 +14,6 @@ for TEST_TARGET in $TEST_TARGET_ARCH; do
     exit 1
   fi
 
-  STORAGEACCOUNTNAME=$StorageAccountName
-  export STORAGEACCOUNTNAME
-
   echo $STORAGEACCOUNTNAME
   python extract_benchmark_data.py --logfile $LOGFILE --output-type text --store-to-db
 done
