@@ -4,6 +4,7 @@ BENCHMARK=yes
 source ./config-vars.sh
 
 for TEST_TARGET in $TEST_TARGET_ARCH; do
+  echo "\n"
   echo "======================================================================"
   echo "Processing benchmark results for target $TEST_TARGET"
   echo "======================================================================"
@@ -13,6 +14,10 @@ for TEST_TARGET in $TEST_TARGET_ARCH; do
     echo "Benchmark results log $LOGFILE not found. Exiting ..."
     exit 1
   fi
+  export TEST_TARGET
 
-  python extract_benchmark_data.py --logfile $LOGFILE --output-type text --store-to-db
+  # Extract benchmark results from the LNT log file and post to the Azure Table
+  # Storage.
+  python extract_benchmark_data.py --logfile $LOGFILE --output-type text
+--store-to-db
 done

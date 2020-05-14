@@ -21,20 +21,12 @@ class AzureTableConnection:
   def commitBatch(self, batch):
     self.tableService.commit_batch(self.tableName, batch)
 
-  def getEntity(self, PartitionKey, RowKey):
-    return self.tableService.get_entity(self.tableName, PartitionKey, RowKey)
-
 
 def getTableConnection():
   tableName = 'bmark'
   azureTable = AzureTableConnection(tableName)
   assert azureTable, "Connection to Azure Table failed"
   return azureTable
-
-
-def get(entity):
-  azureTable = getTableConnection()
-  return azureTable.getEntity(entity['PartitionKey'], entity['RowKey'])
 
 
 def put(runData, testData):

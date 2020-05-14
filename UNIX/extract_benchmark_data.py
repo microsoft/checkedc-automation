@@ -5,7 +5,6 @@ import azure_table
 import getpass
 import json
 import os
-import sys
 import time
 
 parser = argparse.ArgumentParser(
@@ -57,6 +56,7 @@ class LogFile:
     runData = {}
     runData['user'] = getpass.getuser()
     runData['timestamp'] = time.time()
+    runData['target'] = os.environ['TEST_TARGET']
     return runData
 
   def getTestData(self):
