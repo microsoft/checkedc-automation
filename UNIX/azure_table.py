@@ -46,6 +46,8 @@ def put(runData, testData):
   batch = TableBatch()
   entity = {}
 
+  return
+
   for key, value in runData.items():
     if key == 'user':
       user = value
