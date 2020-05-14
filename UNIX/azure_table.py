@@ -46,8 +46,6 @@ def put(runData, testData):
   batch = TableBatch()
   entity = {}
 
-  return
-
   for key, value in runData.items():
     if key == 'user':
       user = value
@@ -61,6 +59,8 @@ def put(runData, testData):
       entity[key] = value
 
   batch.insert_entity(entity)
+  return
+
 
   rowNo = 1
   for testName, testResults in testData.items():
