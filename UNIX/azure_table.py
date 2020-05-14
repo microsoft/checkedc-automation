@@ -9,15 +9,10 @@ from azure.cosmosdb.table import (
 
 class AzureTableConnection:
   def __init__(self, tableName):
-    accountName = os.environ['STORAGEACCOUNTNAME']
-    accountKey = os.environ['STORAGEACCOUNTKEY']
-
-    print "from python, name: " + accountName
-
     self.tableName = tableName
     self.tableService = TableService(
-      account_name=accountName,
-      account_key=accountKey
+      account_name=os.environ['STORAGEACCOUNTNAME'],
+      account_key=os.environ['STORAGEACCOUNTKEY']
     )
 
   def insertEntity(self, entity):
