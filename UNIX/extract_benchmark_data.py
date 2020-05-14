@@ -144,10 +144,15 @@ class LogFile:
     return (testData, configData)
 
 
+# Read user options.
 logFilePath = args.logfile
 shouldPrint = args.pretty_print
 storeToDB = args.store_to_db
 
+# Test data are the results of the benchmarks like test name, compile time, code
+# size, etc.
+# Config data are the compiler flags and other options like test target.
+# Run data is the config data plus timestamp, username, etc.
 logFile = LogFile(logFilePath)
 (testData, configData) = logFile.getTestConfigData()
 runData = logFile.getRunData(configData)

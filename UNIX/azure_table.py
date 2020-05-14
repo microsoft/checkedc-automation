@@ -23,7 +23,7 @@ class AzureTableConnection:
 
 
 def getTableConnection():
-  tableName = 'bmark'
+  tableName = 'benchmark'
   azureTable = AzureTableConnection(tableName)
   assert azureTable, "Connection to Azure Table failed"
   return azureTable
@@ -34,6 +34,7 @@ def put(runData, testData):
   batch = TableBatch()
   entity = {}
 
+  # Add the run data to the batch.
   for key, value in runData.items():
     if key == 'user':
       user = value
@@ -48,6 +49,7 @@ def put(runData, testData):
 
   batch.insert_entity(entity)
 
+  # Add the test data to the batch.
   rowNo = 1
   for testName, testResults in testData.items():
     entity = {}
@@ -58,6 +60,7 @@ def put(runData, testData):
     for metric, value in testResults.items():
       entity[metric] = str(value)
 
+    # Azure Table only allows batches of 100 entities.
     if rowNo % 100 == 0:
       azureTable.commitBatch(batch)
       batch = TableBatch()
@@ -65,5 +68,5 @@ def put(runData, testData):
     batch.insert_entity(entity)
     rowNo += 1
 
-  # If there are any leftover entities in batch.
+  # Commit any leftovers in the batch.
   azureTable.commitBatch(batch)
