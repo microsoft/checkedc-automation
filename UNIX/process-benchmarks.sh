@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/bin/bash -x
+
+CURDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+cd $CURDIR
 
 BENCHMARK=yes
 source ./config-vars.sh
