@@ -17,5 +17,6 @@ for TEST_TARGET in $TEST_TARGET_ARCH; do
   export STORAGE_ACCOUNT_NAME=$(Storage.Account.Name)
   export STORAGE_ACCOUNT_KEY=$(Storage.Account.Key)
 
+  echo "from bash: $STORAGE_ACCOUNT_NAME"
   python extract_benchmark_data.py --logfile $LOGFILE --output-type text --store-to-db
 done

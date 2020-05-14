@@ -16,6 +16,8 @@ class AzureTableConnection:
     accountName = os.environ['STORAGE_ACCOUNT_NAME']
     accountKey = os.environ['STORAGE_ACCOUNT_KEY']
 
+    print "from python: " + accountName
+
     self.tableName = tableName
     self.tableService = TableService(
       account_name=accountName,
