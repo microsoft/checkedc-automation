@@ -13,8 +13,8 @@ class AzureTableConnection:
 #    accountName = subprocess.check_output(["echo", "$(Storage.Account.Name)"])
 #    accountKey = subprocess.check_output(["echo", "$(Storage.Account.Key)"])
 
-    accountName = os.environ['STORAGE_ACCOUNT_NAME']
-    accountKey = os.environ['STORAGE_ACCOUNT_KEY']
+    accountName = os.environ['STORAGEACCOUNTNAME']
+    accountKey = os.environ['STORAGEACCOUNTKEY']
 
     print "from python: " + accountName
 
