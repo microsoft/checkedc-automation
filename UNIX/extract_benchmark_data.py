@@ -7,6 +7,7 @@ import json
 import os
 import re
 import time
+from datetime import date
 
 parser = argparse.ArgumentParser(
            description='Extract benchmark data from a log file and store to database'
@@ -58,6 +59,7 @@ class LogFile:
 
     runData['user'] = getpass.getuser()
     runData['timestamp'] = time.time()
+    runData['date'] = date.today().strftime('%Y-%m-%d')
 
     runData['config'] = {}
     for option, value in configData.items():
