@@ -67,3 +67,10 @@ def put(runData, testData):
 
   # Commit any leftovers in the batch.
   azureTable.commitBatch(batch)
+
+  print '======================================================================'
+  print 'Benchmark data successfully saved to Azure Table Storage'
+  print '======================================================================'
+  print 'PartitionKey: {0}'.format(user)
+  print 'RowKey (for the config record): {0}_{1}'.format(timestamp, 0)
+  print '# of records inserted: {0}'.format(rowNo)
