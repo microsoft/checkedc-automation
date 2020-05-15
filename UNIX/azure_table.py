@@ -15,9 +15,6 @@ class AzureTableConnection:
       account_key=os.environ['STORAGEACCOUNTKEY']
     )
 
-  def insertEntity(self, entity):
-    self.tableService.insert_entity(self.tableName, entity)
-
   def commitBatch(self, batch):
     self.tableService.commit_batch(self.tableName, batch)
 
