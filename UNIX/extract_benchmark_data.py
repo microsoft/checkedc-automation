@@ -34,22 +34,16 @@ class LogFile:
   def splitEntry(self, entry):
     return entry.split(':')
 
-  def getVal(self, arr, i):
+  def getValue(self, arr, i):
     return arr[i].strip() \
                  .replace('"', '') \
                  .replace("'", '')
 
-  def getEntryNameVal(self, entry):
+  def getNameValue(self, entry):
     arr = self.splitEntry(entry)
     if len(arr) < 2:
       return (False, None, None)
-    return (True, self.getVal(arr, 0), self.getVal(arr, 1))
-
-  def getEntryVal(self, entry):
-    arr = self.splitEntry(entry)
-    if len(arr) < 2:
-      return (False, None)
-    return (True, self.getVal(arr, 1))
+    return (True, self.getValue(arr, 0), self.getValue(arr, 1))
 
   def prettyPrint(self, data):
     print json.dumps(data, sort_keys=True, indent=4)
@@ -64,7 +58,6 @@ class LogFile:
     runData['config'] = {}
     for option, value in configData.items():
       runData['config'][option] = value
-      print runData['config'][option]
     runData['config']['TEST_TARGET'] = os.getenv('TEST_TARGET')
 
     return runData
@@ -85,50 +78,34 @@ class LogFile:
                      .replace("' RESULTS", '') \
                      .replace('.test', '')
 
-          (res, testType, name) = self.getEntryNameVal(line)
+          (res, name, value) = self.getNameValue(line)
           if not res:
             continue
-          if testType == 'TEST':
-            testName = name
+          # New test record begins.
+          if name == 'TEST':
+            testName = value
             testData[testName] = {}
-            testData[testName]['exec_times'] = {}
+            testData[testName]['exec_time'] = {}
             testData[testName]['section_sizes'] = {}
-          microTestName = name
+          microTestName = value
 
-        elif line.startswith('compile_time:'):
-          (res, compileTime) = self.getEntryVal(line)
+        elif line.startswith('compile_time:') or \
+             line.startswith('link_time:') or \
+             line.startswith('exec_time:') or \
+             line.startswith('size:') or \
+             line.startswith('size.'):
+          (res, name, value) = self.getNameValue(line)
           if not res:
             continue
-          if testName in testData:
-            testData[testName]['compile_time'] = compileTime
-
-        elif line.startswith('link_time:'):
-          (res, linkTime) = self.getEntryVal(line)
-          if not res:
+          if testName not in testData:
             continue
-          if testName in testData:
-            testData[testName]['link_time'] = linkTime
 
-        elif line.startswith('exec_time:'):
-          (res, execTime) = self.getEntryVal(line)
-          if not res:
-            continue
-          if testName in testData:
-            testData[testName]['exec_times'][microTestName] = execTime
-
-        elif line.startswith('size:'):
-          (res, totalSize) = self.getEntryVal(line)
-          if not res:
-            continue
-          if testName in testData:
-            testData[testName]['total_size'] = totalSize
-
-        elif line.startswith('size.'):
-          (res, sectionName, size) = self.getEntryNameVal(line)
-          if not res:
-            continue
-          if testName in testData:
-            testData[testName]['section_sizes'][sectionName] = size
+          if line.startswith('exec_time:'):
+            testData[testName][name][microTestName] = value
+          elif line.startswith('size.'):
+            testData[testName]['section_sizes'][name] = value
+          else:
+            testData[testName][name] = value
 
         elif 'INFO: Configuring with' in line:
           beginConfig = True
@@ -139,10 +116,10 @@ class LogFile:
         if beginConfig:
           line = re.sub('^.*INFO:', '', line)
           line = line.replace('FILEPATH:', '')
-          (res, option, value) = self.getEntryNameVal(line)
+          (res, name, value) = self.getNameValue(line)
           if not res:
             continue
-          configData[option] = value
+          configData[name] = value
 
     return (testData, configData)
 
