@@ -36,8 +36,7 @@ class LogFile:
 
   def getVal(self, arr, i):
     return arr[i].strip() \
-                 .replace('"', '') \
-                 .replace("'", '')
+                 .replace('"', '')
 
   def getEntryNameVal(self, entry):
     arr = self.splitEntry(entry)
