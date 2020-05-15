@@ -127,13 +127,7 @@ if [[ -z "$BENCHMARK" ]]; then
   export BMARK=no
 
 else
-  LNT_DB_DIR=/lnt-install/llvm.lnt.db
-  if [ ! -d ${LNT_DB_DIR} ]; then
-    echo "No LNT DB found at $LNT_DB_DIR"
-    exit 1
-  fi
   export BMARK=yes
-  export LNT_DB_DIR
 
   EXTRA_LNT_ARGS=
   for OPT in $METRICS; do
@@ -194,7 +188,6 @@ if [ "$CHECKEDC_CONFIG_STATUS" == "passed" ]; then
   echo " LNT_SCRIPT: $LNT_SCRIPT"
   echo " RUN_LOCAL: $RUN_LOCAL"
   echo " BENCHMARK: $BMARK"
-  echo " LNT_DB_DIR: $LNT_DB_DIR"
   echo
   echo " Directories:"
   echo "  BUILD_SOURCESDIRECTORY: $BUILD_SOURCESDIRECTORY"

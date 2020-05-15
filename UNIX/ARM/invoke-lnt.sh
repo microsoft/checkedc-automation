@@ -21,7 +21,6 @@ if [[ "$BMARK" = "yes" ]]; then
     --cflags "$CFLAGS" \
     --run-under "$RUN" \
     --test-suite "$TESTSUITE" \
-    --submit "$LNT_DB_DIR" \
     --only-test "$ONLY_TEST" \
     --exec-multisample "$SAMPLES" \
     --run-order "$USER" \
