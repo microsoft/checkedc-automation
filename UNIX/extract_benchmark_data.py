@@ -35,8 +35,13 @@ class LogFile:
     return entry.split(':')
 
   def getVal(self, arr, i):
-    return arr[i].strip() \
-                 .replace('"', '')
+    val = arr[i].strip() \
+                .replace('"', '') \
+                .replace("'", '')
+    # If the string value contains a space, add quotes around it.
+    if ' ' in val:
+      val = '{0}{1}{0}'.format("'", val)
+    return val
 
   def getEntryNameVal(self, entry):
     arr = self.splitEntry(entry)
@@ -63,6 +68,7 @@ class LogFile:
     runData['config'] = {}
     for option, value in configData.items():
       runData['config'][option] = value
+      print runData['config'][option]
     runData['config']['TEST_TARGET'] = os.getenv('TEST_TARGET')
 
     return runData
