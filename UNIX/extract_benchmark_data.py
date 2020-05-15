@@ -35,13 +35,9 @@ class LogFile:
     return entry.split(':')
 
   def getVal(self, arr, i):
-    val = arr[i].strip() \
-                .replace('"', '') \
-                .replace("'", '')
-    # If the string value contains a space, add quotes around it.
-    if ' ' in val:
-      val = '{0}{1}{0}'.format("'", val)
-    return val
+    return arr[i].strip() \
+                 .replace('"', '') \
+                 .replace("'", '')
 
   def getEntryNameVal(self, entry):
     arr = self.splitEntry(entry)
