@@ -18,13 +18,24 @@ class AzureTableConnection:
   def commitBatch(self, batch):
     self.tableService.commit_batch(self.tableName, batch)
 
+  def getData(self, partitionKey, startRowKey):
+    endRowKey = startRowKey.split('_')[0] + '_99999'
+    filterExpression = "PartitionKey eq '{0}' and \
+                        RowKey gt '{1}' and \
+                        RowKey lt '{2}'" \
+                        .format(partitionKey, startRowKey, endRowKey)
+    return self.tableService.query_entities(self.tableName, filter=filterExpression)
+
 
 def getTableConnection():
   tableName = 'benchmark'
   azureTable = AzureTableConnection(tableName)
-  assert azureTable, "Connection to Azure Table failed"
+  assert azureTable, 'Connection to Azure Table failed'
   return azureTable
 
+def get(partitionKey, rowKey):
+  azureTable = getTableConnection()
+  return azureTable.getData(partitionKey, rowKey)
 
 def put(runData, testData):
   azureTable = getTableConnection()
@@ -72,5 +83,5 @@ def put(runData, testData):
   print 'Benchmark data successfully saved to Azure Table Storage'
   print '======================================================================'
   print 'PartitionKey: {0}'.format(user)
-  print 'RowKey (for the config record): {0}_{1}'.format(timestamp, 0)
+  print 'RowKey: {0}_{1}'.format(timestamp, 0)
   print '# of records inserted: {0}'.format(rowNo)
