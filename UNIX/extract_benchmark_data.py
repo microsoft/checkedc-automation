@@ -145,5 +145,5 @@ if storeToDB:
   azure_table.put(runData, testData)
 
 # Set environment variables for comparing run data to a baseline.
-os.environ['RUNPARTITIONKEY'] = runData.user
-os.environ['RUNROWKEY'] = runData.timestamp
+os.environ['RUNPARTITIONKEY'] = runData['user']
+os.environ['RUNROWKEY'] = runData['timestamp']
