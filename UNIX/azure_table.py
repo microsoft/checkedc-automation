@@ -60,7 +60,7 @@ def put(runData, testData):
   rowNo = 1
   for testName, testResults in testData.items():
     entity = {}
-    entity['PartitionKey'] = runData['partitionKey']
+    entity['PartitionKey'] = runData['partitionkey']
     entity['RowKey'] = '{0}_{1}'.format(runData['rowkey'], rowNo)
 
     entity['test_name'] = testName
