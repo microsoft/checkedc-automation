@@ -23,13 +23,13 @@ def formatData(data):
     exec_time = d.exec_time.replace("'", '"')
     exec_times = json.loads(exec_time)
     result[metrics[3]][test_name] = {}
-    for k in exec_times.keys():
+    for k in exec_times:
       result[metrics[3]][test_name][k] = exec_times[k]
 
     section_size = d.section_sizes.replace("'", '"')
     section_sizes = json.loads(section_size)
     result[metrics[4]][test_name] = {}
-    for k in section_sizes.keys():
+    for k in section_sizes:
       result[metrics[4]][test_name][k] = section_sizes[k]
 
   return result
@@ -49,7 +49,7 @@ def compareData(baselineData, runData):
   r = formatData(runData)
 
   for metric in metrics:
-    if metric not in r.keys():
+    if metric not in r:
       continue
 
     print '======================================================================'
@@ -57,7 +57,7 @@ def compareData(baselineData, runData):
     print '======================================================================'
 
     for test_name in sorted(b[metric].keys()):
-      if test_name not in r[metric].keys():
+      if test_name not in r[metric]:
         continue
 
       b_data = b[metric][test_name]
@@ -67,7 +67,7 @@ def compareData(baselineData, runData):
         print '\n{0}:'.format(test_name)
 
         for exe_name in sorted(b_data.keys()):
-          if exe_name not in r_data.keys():
+          if exe_name not in r_data:
             continue
 
           b_val = b_data[exe_name]
@@ -78,7 +78,7 @@ def compareData(baselineData, runData):
         print '\n{0}:'.format(test_name)
 
         for section_name in sorted(b_data.keys()):
-          if section_name not in r_data.keys():
+          if section_name not in r_data:
             continue
 
           b_val = b_data[section_name]
