@@ -18,13 +18,25 @@ class AzureTableConnection:
   def commitBatch(self, batch):
     self.tableService.commit_batch(self.tableName, batch)
 
+  def getData(self, partitionKey, rowKey):
+    startRowKey = '{0}_0'.format(rowKey)
+    endRowKey = '{0}_9999'.format(rowKey)
+    filterExpression = "PartitionKey eq '{0}' and \
+                        RowKey gt '{1}' and \
+                        RowKey lt '{2}'" \
+                        .format(partitionKey, startRowKey, endRowKey)
+    return self.tableService.query_entities(self.tableName, filter=filterExpression)
+
 
 def getTableConnection():
   tableName = 'benchmark'
   azureTable = AzureTableConnection(tableName)
-  assert azureTable, "Connection to Azure Table failed"
+  assert azureTable, 'Connection to Azure Table failed'
   return azureTable
 
+def get(partitionKey, rowKey):
+  azureTable = getTableConnection()
+  return azureTable.getData(partitionKey, rowKey)
 
 def put(runData, testData):
   azureTable = getTableConnection()
@@ -33,13 +45,11 @@ def put(runData, testData):
 
   # Add the run data to the batch.
   for key, value in runData.items():
-    if key == 'user':
-      user = value
-      entity['PartitionKey'] = user
+    if key == 'partitionkey':
+      entity['PartitionKey'] = value
 
-    elif key == 'timestamp':
-      timestamp = value
-      entity['RowKey'] = '{0}_{1}'.format(timestamp, 0)
+    elif key == 'rowkey':
+      entity['RowKey'] = '{0}_{1}'.format(value, 0)
 
     else:
       entity[key] = str(value)
@@ -50,8 +60,8 @@ def put(runData, testData):
   rowNo = 1
   for testName, testResults in testData.items():
     entity = {}
-    entity['PartitionKey'] = user
-    entity['RowKey'] = '{0}_{1}'.format(timestamp, rowNo)
+    entity['PartitionKey'] = runData['partitionkey']
+    entity['RowKey'] = '{0}_{1}'.format(runData['rowkey'], rowNo)
 
     entity['test_name'] = testName
     for metric, value in testResults.items():
@@ -71,6 +81,6 @@ def put(runData, testData):
   print '======================================================================'
   print 'Benchmark data successfully saved to Azure Table Storage'
   print '======================================================================'
-  print 'PartitionKey: {0}'.format(user)
-  print 'RowKey (for the config record): {0}_{1}'.format(timestamp, 0)
+  print 'PartitionKey: {0}'.format(runData['partitionkey'])
+  print 'RowKey: {0}'.format(runData['rowkey'])
   print '# of records inserted: {0}'.format(rowNo)
