@@ -146,4 +146,4 @@ if storeToDB:
 
 # Set environment variables for comparing run data to a baseline.
 os.environ['RUNPARTITIONKEY'] = runData['user']
-os.environ['RUNROWKEY'] = runData['timestamp']
+os.environ['RUNROWKEY'] = str(runData['timestamp'])
