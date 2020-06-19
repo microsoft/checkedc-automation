@@ -18,8 +18,9 @@ class AzureTableConnection:
   def commitBatch(self, batch):
     self.tableService.commit_batch(self.tableName, batch)
 
-  def getData(self, partitionKey, startRowKey):
-    endRowKey = startRowKey.split('_')[0] + '_99999'
+  def getData(self, partitionKey, rowKey):
+    startRowKey = '{0}_0'.format(rowKey)
+    endRowKey = '{0}_9999'.format(rowKey)
     filterExpression = "PartitionKey eq '{0}' and \
                         RowKey gt '{1}' and \
                         RowKey lt '{2}'" \
@@ -44,13 +45,11 @@ def put(runData, testData):
 
   # Add the run data to the batch.
   for key, value in runData.items():
-    if key == 'user':
-      user = value
-      entity['PartitionKey'] = user
+    if key == 'partitionkey':
+      entity['PartitionKey'] = value
 
-    elif key == 'timestamp':
-      timestamp = value
-      entity['RowKey'] = '{0}_{1}'.format(timestamp, 0)
+    elif key == 'rowkey':
+      entity['RowKey'] = '{0}_{1}'.format(value, 0)
 
     else:
       entity[key] = str(value)
@@ -61,8 +60,8 @@ def put(runData, testData):
   rowNo = 1
   for testName, testResults in testData.items():
     entity = {}
-    entity['PartitionKey'] = user
-    entity['RowKey'] = '{0}_{1}'.format(timestamp, rowNo)
+    entity['PartitionKey'] = runData['partitionKey']
+    entity['RowKey'] = '{0}_{1}'.format(runData['rowkey'], rowNo)
 
     entity['test_name'] = testName
     for metric, value in testResults.items():
@@ -82,6 +81,6 @@ def put(runData, testData):
   print '======================================================================'
   print 'Benchmark data successfully saved to Azure Table Storage'
   print '======================================================================'
-  print 'PartitionKey: {0}'.format(user)
-  print 'RowKey: {0}_{1}'.format(timestamp, 0)
+  print 'PartitionKey: {0}'.format(runData['partitionkey'])
+  print 'RowKey: {0}'.format(runData['rowkey'])
   print '# of records inserted: {0}'.format(rowNo)

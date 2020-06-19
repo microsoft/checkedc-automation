@@ -51,8 +51,8 @@ class LogFile:
   def getRunData(self, configData):
     runData = {}
 
-    runData['user'] = getpass.getuser()
-    runData['timestamp'] = time.time()
+    runData['partitionkey'] = os.environ['RUNPARTITIONKEY']
+    runData['rowkey'] = os.environ['RUNROWKEY']
     runData['date'] = date.today().strftime('%Y-%m-%d')
 
     runData['config'] = {}
