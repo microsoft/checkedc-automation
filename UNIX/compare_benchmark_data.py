@@ -100,4 +100,12 @@ runPartitionKey = os.environ['RUNPARTITIONKEY']
 runRowKey = os.environ['RUNROWKEY']
 runData = azure_table.get(runPartitionKey, runRowKey)
 
+print '======================================================================'
+print 'Comparing benchmark results to baseline'
+print '======================================================================'
+print 'Baseline Partition Key: {0}'.format(baselinePartitionKey)
+print 'Baseline Row Key: {0}'.format(baselineRowKey)
+print 'Run Partition Key: {0}'.format(runPartitionKey)
+print 'Run Row Key: {0}'.format(runRowKey)
+
 compareData(baselineData, runData)
