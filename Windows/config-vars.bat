@@ -57,12 +57,16 @@ if NOT DEFINED BUILDOS (
   exit /b 1;
 )
 
-rem Validate or set target architecture for testing.
+rem Validate or set target architecture and configure script for testing.
+
+rem By default, build an x64 compiler using x64 tools.
+set CONFIGURE_SCRIPT=vcvars64.bat
 
 if NOT DEFINED TEST_TARGET_ARCH (
   set TEST_TARGET_ARCH=x64
 ) else if "%TEST_TARGET_ARCH%"=="x86"  (
-  rem
+  rem Build an x86 compiler using x64 tools.
+  set CONFIGURE_SCRIPT=vcvarsamd64_x86.bat
 ) else if "%TEST_TARGET_ARCH%"=="x64"  (
   rem
 ) else (
@@ -183,6 +187,7 @@ if NOT DEFINED CL_CPU_COUNT (
 @echo.  BUILDCONFIGURATION: %BUILDCONFIGURATION%
 @echo.  BUILDOS: %BUILDOS%
 @echo.  TEST_TARGET_ARCH: %TEST_TARGET_ARCH%
+@echo.  CONFIGURE_SCRIPT: %CONFIGURE_SCRIPT%
 @echo.  TEST_SUITE: %TEST_SUITE%
 @echo.  BUILD_CHECKEDC_CLEAN: %BUILD_CHECKEDC_CLEAN%
 @echo.  BUILD_PACKAGE: %BUILD_PACKAGE%

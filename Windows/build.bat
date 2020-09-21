@@ -25,8 +25,8 @@ cd %LLVM_OBJ_DIR%
 @echo.Running the configure step
 @echo.======================================================================
 
-@echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
-@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
+@echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\%CONFIGURE_SCRIPT%"
+@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\%CONFIGURE_SCRIPT%"
 
 if "%BUILD_PACKAGE%"=="Yes" (
   if "%BUILDCONFIGURATION%"=="Release" (

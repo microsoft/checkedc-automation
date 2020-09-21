@@ -14,8 +14,8 @@ set PATH="C:\GnuWin32\bin";%PATH%
 set OLD_DIR=%CD%
 cd %LLVM_OBJ_DIR%
 
-@echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
-@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %TEST_TARGET_ARCH%
+@echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\%CONFIGURE_SCRIPT%"
+@call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\%CONFIGURE_SCRIPT%"
 
 @echo.======================================================================
 @echo.Running the Checked C regression tests
