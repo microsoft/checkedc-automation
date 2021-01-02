@@ -11,7 +11,7 @@ set OLD_DIR=%CD%
 @echo.======================================================================
 
 if not exist %BUILD_SOURCESDIRECTORY%\.git (
-  git clone -c core.autocrlf=false https://github.com/Microsoft/checkedc-clang %BUILD_SOURCESDIRECTORY%
+  git clone -c core.autocrlf=false --depth 20 https://github.com/Microsoft/checkedc-clang %BUILD_SOURCESDIRECTORY%
   if ERRORLEVEL 1 (goto cmdfailed)
 )
 
