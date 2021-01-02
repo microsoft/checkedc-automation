@@ -10,6 +10,13 @@ if ERRORLEVEL 1 (goto cmdfailed)
 
 set OLD_DIR=%CD%
 
+rem Clone checked-clang source to top-level source directory, following how ADO checks out top-level
+rem repos.
+if not exist %BUILD_SOURCESDIRECTORY%\.git (
+  git clone -c core.autocrlf=false https://github.com/Microsoft/checkedc-clang %BUILD_SOURCESDIRECTORY%
+  if ERRORLEVEL 1 (goto cmdfailed)
+)
+
 if not exist %BUILD_SOURCESDIRECTORY%\llvm\projects\checkedc-wrapper\checkedc\.git (
   git clone https://github.com/Microsoft/checkedc %BUILD_SOURCESDIRECTORY%\llvm\projects\checkedc-wrapper\checkedc
   if ERRORLEVEL 1 (goto cmdfailed)
