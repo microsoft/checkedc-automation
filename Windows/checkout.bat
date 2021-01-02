@@ -4,18 +4,30 @@
 @call checkedc-automation\Windows\config-vars.bat
 if ERRORLEVEL 1 (goto cmdfailed)
 
-@echo.======================================================================
-@echo.Checking out checkedc
-@echo.======================================================================
-
 set OLD_DIR=%CD%
 
-rem Clone checked-clang source to top-level source directory, following how ADO checks out top-level
-rem repos.
+@echo.======================================================================
+@echo.Checking out checkedc-clang
+@echo.======================================================================
+
 if not exist %BUILD_SOURCESDIRECTORY%\.git (
   git clone -c core.autocrlf=false https://github.com/Microsoft/checkedc-clang %BUILD_SOURCESDIRECTORY%
   if ERRORLEVEL 1 (goto cmdfailed)
 )
+
+rem set up Checked C sources
+cd %BUILD_SOURCESDIRECTORY%
+if ERRORLEVEL 1 (goto cmdfailed)
+git fetch origin
+if ERRORLEVEL 1 (goto cmdfailed)
+git checkout -f %BUILD_SOURCEBRANCHNAME%
+if ERRORLEVEL 1 (goto cmdfailed)
+git pull -f origin %BUILD_SOURCEBRANCHNAME%
+if ERRORLEVEL 1 (goto cmdfailed)
+
+@echo.======================================================================
+@echo.Checking out checkedc
+@echo.======================================================================
 
 if not exist %BUILD_SOURCESDIRECTORY%\llvm\projects\checkedc-wrapper\checkedc\.git (
   git clone https://github.com/Microsoft/checkedc %BUILD_SOURCESDIRECTORY%\llvm\projects\checkedc-wrapper\checkedc
