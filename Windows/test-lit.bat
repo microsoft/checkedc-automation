@@ -4,9 +4,6 @@
 @call checkedc-automation\Windows\config-vars.bat
 if ERRORLEVEL 1 (goto cmdfailed)
 
-rem Set path to Unix utilities.
-set PATH="C:\GnuWin32\bin";%PATH%
-
 @echo.======================================================================
 @echo.Running unit tests using lit for the Checked C compiler
 @echo.======================================================================

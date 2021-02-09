@@ -4,9 +4,6 @@
 @call checkedc-automation\Windows\config-vars.bat
 if ERRORLEVEL 1 (goto cmdfailed)
 
-rem Set path to Unix utilities.
-set PATH="C:\GnuWin32\bin";%PATH%
-
 @echo.======================================================================
 @echo.Configuring and building the Checked C compiler
 @echo.======================================================================
@@ -43,6 +40,9 @@ if "%BUILDCONFIGURATION%"=="Release" (
 ) else (
   set EXTRA_FLAGS=%EXTRA_FLAGS% -DLLVM_USE_CRT_DEBUG=MTd
 )
+
+Rem Set path to Unix utilities.
+set EXTRA_FLAGS=%EXTRA_FLAGS% -DLLVM_LIT_TOOLS_DIR="C:\GnuWin32\bin"
 
 @echo cmake -G Ninja -DLLVM_ENABLE_PROJECTS=clang -DLLVM_TARGETS_TO_BUILD=all -DCMAKE_BUILD_TYPE=%BUILDCONFIGURATION% %EXTRA_FLAGS% %BUILD_SOURCESDIRECTORY%\llvm
 cmake -G Ninja -DLLVM_ENABLE_PROJECTS=clang -DLLVM_TARGETS_TO_BUILD=all -DCMAKE_BUILD_TYPE=%BUILDCONFIGURATION% %EXTRA_FLAGS% %BUILD_SOURCESDIRECTORY%\llvm
