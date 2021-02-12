@@ -5,7 +5,7 @@
 if ERRORLEVEL 1 (goto cmdfailed)
 
 rem Set path to Unix utilities.
-set PATH="C:\GnuWin32\bin";%PATH%
+set PATH="C:\Program Files\Git\usr\bin";%PATH%
 
 set OLD_DIR=%CD%
 cd %LLVM_OBJ_DIR%
