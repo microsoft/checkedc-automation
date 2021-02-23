@@ -21,6 +21,8 @@ cd %LLVM_OBJ_DIR%
 @echo.Running the Checked C regression tests
 @echo.======================================================================
 
+set path="C:\Program Files\Git\usr\bin";%path%
+
 @echo %LLVM_OBJ_DIR%\bin\llvm-lit.py -v %BUILD_SOURCESDIRECTORY%\clang\test\Analysis\diagnostics\sarif-multi-diagnostic-test.c
 %LLVM_OBJ_DIR%\bin\llvm-lit.py -v %BUILD_SOURCESDIRECTORY%\clang\test\Analysis\diagnostics\sarif-multi-diagnostic-test.c
 
