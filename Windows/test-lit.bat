@@ -21,6 +21,7 @@ cd %LLVM_OBJ_DIR%
 @echo.Running the Checked C regression tests
 @echo.======================================================================
 
+@echo %BUILD_BINARIESDIRECTORY%\bin\llvm-lit.py -v %BUILD_SOURCESDIRECTORY%\clang\test\Analysis\diagnostics\sarif-multi-diagnostic-test.c
 %BUILD_BINARIESDIRECTORY%\bin\llvm-lit.py -v %BUILD_SOURCESDIRECTORY%\clang\test\Analysis\diagnostics\sarif-multi-diagnostic-test.c
 
 goto succeeded
