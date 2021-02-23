@@ -24,7 +24,7 @@ cd %LLVM_OBJ_DIR%
 @echo %LLVM_OBJ_DIR%\bin\llvm-lit.py -v %BUILD_SOURCESDIRECTORY%\clang\test\Analysis\diagnostics\sarif-multi-diagnostic-test.c
 %LLVM_OBJ_DIR%\bin\llvm-lit.py -v %BUILD_SOURCESDIRECTORY%\clang\test\Analysis\diagnostics\sarif-multi-diagnostic-test.c
 
-goto succeeded
+goto cmdfailed
 
 @echo ninja -v -j%CL_CPU_COUNT% check-checkedc
 ninja -v -j%CL_CPU_COUNT% check-checkedc
