@@ -5,7 +5,7 @@
 if ERRORLEVEL 1 (goto cmdfailed)
 
 rem Set path to Unix utilities.
-set PATH="C:\GnuWin32\bin";%PATH%
+rem set PATH="C:\GnuWin32\bin";%PATH%
 
 @echo.======================================================================
 @echo.Running unit tests using lit for the Checked C compiler
@@ -21,6 +21,7 @@ cd %LLVM_OBJ_DIR%
 @echo.Running the Checked C regression tests
 @echo.======================================================================
 
+@echo set path="C:\Program Files\Git\usr\bin";%path%
 set path="C:\Program Files\Git\usr\bin";%path%
 
 @echo %LLVM_OBJ_DIR%\bin\llvm-lit.py -v %BUILD_SOURCESDIRECTORY%\clang\test\Analysis\diagnostics\sarif-multi-diagnostic-test.c
