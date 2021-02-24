@@ -58,15 +58,18 @@ if NOT DEFINED BUILDOS (
 )
 
 rem Validate or set target architecture for testing.
+rem x64_x86 will use x64 MSVC toolchain to build x86 llvm/clang compiler.
+rem x64 will use x64 MSVC toolchain to build x64 llvm/clang compiler.
+rem See https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-160
 
 if NOT DEFINED TEST_TARGET_ARCH (
   set TEST_TARGET_ARCH=x64
-) else if "%TEST_TARGET_ARCH%"=="x86"  (
+) else if "%TEST_TARGET_ARCH%"=="x64_x86"  (
   rem
 ) else if "%TEST_TARGET_ARCH%"=="x64"  (
   rem
 ) else (
-  @echo Unknown TEST_TARGET_ARCH value %TEST_TARGET_ARCH: must be x86 or x64
+  @echo Unknown TEST_TARGET_ARCH value %TEST_TARGET_ARCH: must be x64 or x64_x86.
   exit /b 1;
 )
 
