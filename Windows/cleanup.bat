@@ -33,3 +33,7 @@ if "%CLEAN_SRC_BUILD_DIR%"=="No" (
     @echo.Build dir %LLVM_OBJ_DIR% not found
   )
 )
+
+:cmdfailed
+  @echo.Cleanup failed
+  exit /b 1
