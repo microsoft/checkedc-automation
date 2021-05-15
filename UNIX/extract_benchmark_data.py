@@ -108,9 +108,9 @@ class LogFile:
           else:
             testData[testName][name] = value
 
-        # Sum the compile times.
-        if line.startswith('compile_time:'):
-          self.totalCompileTime += float(value)
+          # Sum the compile times.
+          if line.startswith('compile_time:'):
+            self.totalCompileTime += float(value)
 
         elif 'INFO: Configuring with' in line:
           beginConfig = True
