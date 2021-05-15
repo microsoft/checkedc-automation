@@ -141,11 +141,12 @@ storeToDB = args.store_to_db
 logFile = LogFile(logFilePath)
 (testData, configData) = logFile.getTestConfigData()
 runData = logFile.getRunData(configData)
+totalCompileTime = logFile.totalCompileTime
 
 if shouldPrint:
   logFile.prettyPrint(runData)
   logFile.prettyPrint(testData)
-  print ('Total compile time: {0} s'.format(self.totalCompileTime))
+  print ('Total compile time: {0} s'.format(totalCompileTime))
 
 if storeToDB:
   azure_table.put(runData, testData)
