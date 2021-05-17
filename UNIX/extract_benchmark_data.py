@@ -30,6 +30,7 @@ args = parser.parse_args()
 class LogFile:
   def __init__(self, logFile):
     self.logFile = logFile
+    self.totalCompileTime = 0.0
 
   def splitEntry(self, entry):
     return entry.split(':')
@@ -107,6 +108,10 @@ class LogFile:
           else:
             testData[testName][name] = value
 
+          # Sum the compile times.
+          if line.startswith('compile_time:'):
+            self.totalCompileTime += float(value)
+
         elif 'INFO: Configuring with' in line:
           beginConfig = True
 
@@ -136,10 +141,12 @@ storeToDB = args.store_to_db
 logFile = LogFile(logFilePath)
 (testData, configData) = logFile.getTestConfigData()
 runData = logFile.getRunData(configData)
+totalCompileTime = logFile.totalCompileTime
 
 if shouldPrint:
   logFile.prettyPrint(runData)
   logFile.prettyPrint(testData)
+  print ('Total compile time: {0} s'.format(totalCompileTime))
 
 if storeToDB:
   azure_table.put(runData, testData)
