@@ -67,6 +67,9 @@ if [[ "$BUILD_PACKAGE" == "Yes" ]]; then
 elif [[ "$TEST_SUITE" == "CheckedC_LLVM" ]]; then
   echo ninja -j${BUILD_CPU_COUNT}
   ninja -j${BUILD_CPU_COUNT}
+elif [[ "$CLANGD" == "Yes" ]]; then
+  echo ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip clangd
+  ninja -j${BUILD_CPU_COUNT}
 else
   echo ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip
   ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip
