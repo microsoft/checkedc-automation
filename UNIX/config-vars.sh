@@ -173,6 +173,14 @@ else
     export LNT_SCRIPT=/lnt-install/sandbox/bin/lnt
   fi
 fi
+
+# The build of clang-tools-extra is enabled when CLANGD is a non-empty
+# string.
+if [ -z "$CLANGD" ]; then
+  # Make sure CLANGD variable is defined so that scripts that require all variables
+  # to be defined do not break.
+  export CLANGD=""
+fi
  
 if [ "$CHECKEDC_CONFIG_STATUS" == "passed" ]; then
   echo "======================================================================"
@@ -185,6 +193,7 @@ if [ "$CHECKEDC_CONFIG_STATUS" == "passed" ]; then
   echo " TEST_SUITE: $TEST_SUITE"
   echo " SKIP_CHECKEDC_TESTS: $SKIP_CHECKEDC_TESTS"
   echo " LNT: $LNT"
+  echo " CLANGD: $CLANGD"
   echo " LNT_SCRIPT: $LNT_SCRIPT"
   echo " RUN_LOCAL: $RUN_LOCAL"
   echo " BENCHMARK: $BMARK"

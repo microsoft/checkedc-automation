@@ -22,6 +22,12 @@ if [[ ("$LNT" != "" || "$BUILD_PACKAGE" == "Yes") &&
   CMAKE_ADDITIONAL_OPTIONS="-DLLVM_INSTALL_TOOLCHAIN_ONLY=ON -DLLVM_ENABLE_ASSERTIONS=ON"
 fi
 
+if [[ "$CLANGD" == "Yes" ]]; then
+  ENABLEPROJECTS="clang;clang-tools-extra"
+else
+  ENABLEPROJECTS="clang"
+fi
+
 mkdir -p "$LLVM_OBJ_DIR"
 cd "$LLVM_OBJ_DIR"
 
@@ -31,7 +37,7 @@ echo "======================================================================"
 
 echo cmake -G Ninja \
   ${CMAKE_ADDITIONAL_OPTIONS} \
-  -DLLVM_ENABLE_PROJECTS=clang \
+  -DLLVM_ENABLE_PROJECTS="$ENABLEPROJECTS" \
   -DCMAKE_BUILD_TYPE="$BUILDCONFIGURATION" \
   -DCHECKEDC_ARM_RUNUNDER="qemu-arm" \
   -DLLVM_CCACHE_BUILD=ON \
@@ -40,7 +46,7 @@ echo cmake -G Ninja \
 
 cmake -G Ninja \
   ${CMAKE_ADDITIONAL_OPTIONS} \
-  -DLLVM_ENABLE_PROJECTS=clang \
+  -DLLVM_ENABLE_PROJECTS="$ENABLEPROJECTS" \
   -DCMAKE_BUILD_TYPE="$BUILDCONFIGURATION" \
   -DCHECKEDC_ARM_RUNUNDER="qemu-arm" \
   -DLLVM_CCACHE_BUILD=ON \
@@ -61,6 +67,9 @@ if [[ "$BUILD_PACKAGE" == "Yes" ]]; then
 elif [[ "$TEST_SUITE" == "CheckedC_LLVM" ]]; then
   echo ninja -j${BUILD_CPU_COUNT}
   ninja -j${BUILD_CPU_COUNT}
+elif [[ "$CLANGD" == "Yes" ]]; then
+  echo ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip clangd
+  ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip clangd
 else
   echo ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip
   ninja -j${BUILD_CPU_COUNT} clang llvm-size llvm-strip
