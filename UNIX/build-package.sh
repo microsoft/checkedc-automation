@@ -44,6 +44,6 @@ if [ "$?" -ne "0" ]; then
 fi
 
 # Installer executable in its own directory.
-mv LLVM-*.tar.Z package
+mv CheckedC-Clang-*.tar.Z package
 
 cmdsucceeded
