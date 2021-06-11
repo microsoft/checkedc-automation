@@ -11,6 +11,7 @@ set -ue
 set -o pipefail
 
 export PATH=$LLVM_OBJ_DIR/bin:$PATH
+echo "PATH: " $PATH
 if [ ! -e "`which clang`" ]; then
   echo "clang compiler not found"
   exit 1
