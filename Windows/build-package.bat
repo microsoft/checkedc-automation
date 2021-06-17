@@ -21,7 +21,7 @@ ninja -v -j%CL_CPU_COUNT% package
 if ERRORLEVEL 1 (goto cmdfailed)
 
 rem Put the installer executable in its own subdirectory.
-move LLVM-*.exe package
+move CheckedC-Clang-*.exe package
 if ERRORLEVEL 1 (goto cmdfailed)
 
 :succeeded
