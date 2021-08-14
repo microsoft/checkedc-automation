@@ -11,19 +11,15 @@ rem running it manually, the variables must be set by the user.
 
 rem Create configuration variables
 
-if NOT DEFINED BUILD_CHECKEDC_CLEAN (
-  if DEFINED BUILD_CLEAN (
-    set BUILD_CHECKEDC_CLEAN=Yes
-  ) else (
-    set BUILD_CHECKEDC_CLEAN=No
-  )
+if NOT DEFINED CLEAN_SRC_BUILD_DIR (
+  set CLEAN_SRC_BUILD_DIR=No
 ) else (
-  if "%BUILD_CHECKEDC_CLEAN%"=="Yes" (
+  if "%CLEAN_SRC_BUILD_DIR%"=="Yes" (
     rem
-  ) else if "%BUILD_CHECKEDC_CLEAN%"=="No" (
+  ) else if "%CLEAN_SRC_BUILD_DIR%"=="No" (
     rem
   ) else (
-    @echo Unknown BUILD_CHECKEDC_CLEAN value %BUILD_CHECKEDC_CLEAN%: must be one of Yes or No
+    @echo Unknown CLEAN_SRC_BUILD_DIR value %CLEAN_SRC_BUILD_DIR%: must be one of Yes or No
     exit /b /1
   )
 )
@@ -187,7 +183,7 @@ if NOT DEFINED CL_CPU_COUNT (
 @echo.  BUILDOS: %BUILDOS%
 @echo.  TEST_TARGET_ARCH: %TEST_TARGET_ARCH%
 @echo.  TEST_SUITE: %TEST_SUITE%
-@echo.  BUILD_CHECKEDC_CLEAN: %BUILD_CHECKEDC_CLEAN%
+@echo.  CLEAN_SRC_BUILD_DIR: %CLEAN_SRC_BUILD_DIR%
 @echo.  BUILD_PACKAGE: %BUILD_PACKAGE%
 @echo.  SIGN_INSTALLER: %SIGN_INSTALLER%
 @echo.

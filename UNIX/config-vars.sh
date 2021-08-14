@@ -18,6 +18,13 @@ CHECKEDC_CONFIG_STATUS="passed"
 
 # Validate build configuration
 
+if [ -z "$CLEAN_SRC_BUILD_DIR" ]; then
+  CLEAN_SRC_BUILD_DIR=No
+elif [ "$CLEAN_SRC_BUILD_DIR" != "Yes" -a "$CLEAN_SRC_BUILD_DIR" != No ]; then
+  echo "Unknown CLEAN_SRC_BUILD_DIR value $CLEAN_SRC_BUILD_DIR: must be one of Yes or No"
+  CHECKEDC_CONFIG_STATUS="error"
+fi
+
 if [ -z "$BUILDCONFIGURATION" ]; then
   echo "BUILDCONFIGURATION not set: must be set to set to one of Debug, Release, ReleaseWithDebInfo"
   CHECKEDC_CONFIG_STATUS="error"  
@@ -191,6 +198,7 @@ if [ "$CHECKEDC_CONFIG_STATUS" == "passed" ]; then
   echo " BUILDOS: $BUILDOS"
   echo " TEST_TARGET_ARCH: $TEST_TARGET_ARCH"
   echo " TEST_SUITE: $TEST_SUITE"
+  echo " CLEAN_SRC_BUILD_DIR: $CLEAN_SRC_BUILD_DIR"
   echo " SKIP_CHECKEDC_TESTS: $SKIP_CHECKEDC_TESTS"
   echo " LNT: $LNT"
   echo " CLANGD: $CLANGD"
